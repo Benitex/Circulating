@@ -4,7 +4,6 @@
 
 Shop = {}
 
-Shop.accessible = true
 Shop.coins = 0
 Shop.totalCoins = 0
 Shop.coinsCooldown = 0

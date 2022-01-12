@@ -2,7 +2,7 @@
 -- Ball class --
 ----------------
 
-Ball = {
+local Ball = {
     x = love.graphics.getWidth()/2,
     y = love.graphics.getHeight()/2,
     speed = 7*30,

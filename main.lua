@@ -1,8 +1,8 @@
 function love.load()
     -- Classes
+    UI = require 'UI'
     Ball = require 'Ball'
     Shop = require 'Shop'
-    Icon = require 'Icon'
 
     -- Font
     font = love.graphics.newFont('font/pixelart.ttf')
@@ -18,27 +18,17 @@ function love.load()
     gameState = 'menu'
     love.window.setFullscreen(true) -- Will be moved to the settings screen
 
+    UI.loadButtons()
     ball = Ball:new()
 end
 
 function love.draw()
-    if gameState == 'menu' then
-        love.graphics.draw(Icon.new('Play_Icon'), love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 0, 5, 5)
-
-    elseif gameState == 'play' then
+    love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
+    if gameState == 'play' then
         love.graphics.circle('fill', ball.x, ball.y, ball.size)
-        love.graphics.print('Total coins\t' .. Shop.totalCoins, 10, 10, 0, 5, 5)
-        love.graphics.print('Current coins\t' .. Shop.coins, 10, 80, 0, 5, 5)
-        love.graphics.draw(Icon.new('Pause_Icon'), love.graphics.getWidth() - 32*5 - 20, 20, 0, 3, 3)
-
-    elseif gameState == 'pause' then
-        love.graphics.print("Game Over", love.graphics.getWidth()/2 - 36*7, love.graphics.getHeight()/2 - 12*7, 0, 7, 7)
-        love.graphics.draw(Icon.new('Play_Icon'), love.graphics.getWidth() - 32*5 - 20, 20, 0, 3, 3)
-        if Shop.accessible then
-            love.graphics.draw(Icon.new('Shop_Icon'), 20, 20, 0, 3, 3)
-        end
-
     end
+    UI.drawButtons()
+    UI.showTexts()
 end
 
 function love.update(dt)
@@ -48,14 +38,14 @@ function love.update(dt)
         ball:move(dt)
 
         if ( ball.x < love.mouse.getX() and ball.x + ball.size > love.mouse.getX() ) and ( ball.y < love.mouse.getY() and ball.y + ball.size > love.mouse.getY() ) then
-            gameState = 'pause'
+            gameState = 'game over'
+            music:stop()
             defeatSE:play()
             ball.x = love.graphics.getWidth()/2
             ball.y = love.graphics.getHeight()/2
             ball.speed = 7*30
             ball.size = 15
             Shop.coins = 0
-            Shop.accessible = true
         end
 
     elseif gameState == 'pause' then
@@ -70,7 +60,6 @@ end
 function love.keypressed(key)
     if key == 'space' then
         if gameState == 'play' then
-            Shop.accessible = false
             gameState = 'pause'
         else
             gameState = 'play'
@@ -83,16 +72,9 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y)
-    if gameState == 'menu' then
+    if gameState == 'menu' or gameState == 'game over' then
         if x >= love.graphics.getWidth()/2 - 16*5 and x <= love.graphics.getWidth()/2 + 16*5 and y >= love.graphics.getHeight()/2 - 16*5 and y <= love.graphics.getHeight() + 16*5 then
-            Shop.accessible = false
             gameState = 'play'
         end
-
-    --elseif gameState == 'pause' then
-        --if x >= love.graphics.getWidth() - 20  then
-            
-        --end
-
     end
 end
