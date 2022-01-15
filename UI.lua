@@ -36,6 +36,8 @@ function UI.loadButtons()
 
         number of coins on screen at the same time
         coins size
+        coins value
+        coins spawn time
 
         Hotter
 

@@ -1,9 +1,14 @@
+-----------
+-- Daire --
+-----------
+
+-- Classes
+local UI = require 'UI'
+local Mouse = require "Mouse"
+local Ball = require 'Ball'
+Shop = require 'Shop'
+
 function love.load()
-    -- Classes
-    UI = require 'UI'
-    Mouse = require "Mouse"
-    Ball = require 'Ball'
-    Shop = require 'Shop'
 
     -- Font
     font = love.graphics.newFont('font/pixelart.ttf')
@@ -28,6 +33,9 @@ end
 function love.draw()
     love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
     if gameState == 'play' then
+        for index, coin in ipairs(Shop.coinsList) do
+            love.graphics.draw(coin.sprite, coin.x, coin.y, 0, coin.scale, coin.scale)
+        end
         for tempo, ball in ipairs(ballList) do
             love.graphics.circle('fill', ball.x, ball.y, ball.size)
         end
@@ -42,9 +50,17 @@ function love.update(dt)
         music:play()
         Shop.receiveCoins(dt)
         for tempo, ball in ipairs(ballList) do
+            Shop.spawnCoins(dt)
+            if Shop.coinsPickedOnHover == true then
+                for coinNumber, coin in ipairs(Shop.coinsList) do
+                    if coin:hovered(love.mouse.getX(), love.mouse.getY(), Mouse.width, Mouse.height) then
+                        table.remove(Shop.coinsList, coinNumber)
+                    end
+                end
+            end
             ball:move(dt)
 
-            -- this code will change to do circle collisions instead of rectangles, will probably be moved to somewhere else to
+            -- this code will change to do circle collisions instead of rectangles, will probably be moved to somewhere else too
             if ( love.mouse.getX() + Mouse.width >= ball.x and love.mouse.getX() <= ball.x + ball.size ) and ( love.mouse.getY() + Mouse.height >= ball.y and love.mouse.getY() <= ball.y + ball.size ) then
                 gameState = 'game over'
                 music:stop()
@@ -67,14 +83,6 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-    if key == 'space' then
-        if gameState == 'play' then
-            gameState = 'pause'
-        else
-            gameState = 'play'
-        end
-    end
-
     if key == 'escape' then
         love.event.quit()
     end
@@ -84,5 +92,12 @@ function love.mousepressed(x, y)
     -- Buttons
     for buttonNumber, button in ipairs(UI.getList()) do
         button:clicked(x, y)
+    end
+    if Shop.coinsPickedOnHover == false then
+        for coinNumber, coin in ipairs(Shop.coinsList) do
+            if coin:clicked(x, y, Mouse.width, Mouse.height) then
+                table.remove(Shop.coinsList, coinNumber)
+            end
+        end
     end
 end
