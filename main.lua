@@ -1,6 +1,7 @@
 function love.load()
     -- Classes
     UI = require 'UI'
+    Mouse = require "Mouse"
     Ball = require 'Ball'
     Shop = require 'Shop'
 
@@ -16,36 +17,44 @@ function love.load()
     defeatSE:setLooping(false)
 
     gameState = 'menu'
+    love.mouse.setVisible(false)
     love.window.setFullscreen(true) -- Will be moved to the settings screen
 
     UI.loadButtons()
-    ball = Ball:new()
+    ballList = {}
+    table.insert(ballList, Ball:new())
 end
 
 function love.draw()
     love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
     if gameState == 'play' then
-        love.graphics.circle('fill', ball.x, ball.y, ball.size)
+        for tempo, ball in ipairs(ballList) do
+            love.graphics.circle('fill', ball.x, ball.y, ball.size)
+        end
     end
     UI.drawButtons()
     UI.showTexts()
+    Mouse.draw()
 end
 
 function love.update(dt)
     if gameState == 'play' then
         music:play()
         Shop.receiveCoins(dt)
-        ball:move(dt)
+        for tempo, ball in ipairs(ballList) do
+            ball:move(dt)
 
-        if ( ball.x < love.mouse.getX() and ball.x + ball.size > love.mouse.getX() ) and ( ball.y < love.mouse.getY() and ball.y + ball.size > love.mouse.getY() ) then
-            gameState = 'game over'
-            music:stop()
-            defeatSE:play()
-            ball.x = love.graphics.getWidth()/2
-            ball.y = love.graphics.getHeight()/2
-            ball.speed = 7*30
-            ball.size = 15
-            Shop.coins = 0
+            -- this code will change to do circle collisions instead of rectangles, will probably be moved to somewhere else to
+            if ( love.mouse.getX() + Mouse.width >= ball.x and love.mouse.getX() <= ball.x + ball.size ) and ( love.mouse.getY() + Mouse.height >= ball.y and love.mouse.getY() <= ball.y + ball.size ) then
+                gameState = 'game over'
+                music:stop()
+                defeatSE:play()
+                ball.x = love.graphics.getWidth()/2
+                ball.y = love.graphics.getHeight()/2
+                ball.speed = 7*30
+                ball.size = 15
+                Shop.coins = 0
+            end
         end
 
     elseif gameState == 'pause' then
@@ -72,7 +81,7 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y)
-    -- Button inputs
+    -- Buttons
     for buttonNumber, button in ipairs(UI.getList()) do
         button:clicked(x, y)
     end

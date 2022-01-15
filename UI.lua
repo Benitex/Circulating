@@ -9,6 +9,7 @@ UI.menu = {}
 UI.play = {}
 UI.pause = {}
 UI.gameOver = {}
+UI.settings = {}
 UI.shop = {}
 
 function UI.loadButtons()
@@ -27,8 +28,21 @@ function UI.loadButtons()
     table.insert(UI.gameOver, Button:new(function() end, 'Shop_Icon', 20, 20, 3))
     table.insert(UI.gameOver, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
 
-    -- shop
+    -- settings
 
+    -- shop
+    --[[
+        Colder
+
+        number of coins on screen at the same time
+        coins size
+
+        Hotter
+
+        cursor size
+        random mouse position
+        number of balls
+    --]]
 end
 
 function UI.getList()
@@ -41,6 +55,8 @@ function UI.getList()
         list = UI.pause
     elseif gameState == 'game over' then
         list = UI.gameOver
+    elseif gameState == 'settings' then
+        list = UI.shop
     elseif gameState == 'shop' then
         list = UI.shop
     end
