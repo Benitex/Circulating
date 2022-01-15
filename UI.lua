@@ -13,27 +13,25 @@ UI.shop = {}
 
 function UI.loadButtons()
     -- menu
-    table.insert(UI.menu, Button:new('Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+    table.insert(UI.menu, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
 
     -- play
-    table.insert(UI.play, Button:new('MaxCoin_Icon', 10, 10, 5))
-    table.insert(UI.play, Button:new('Coin_Icon', 10, 100, 5))
-    table.insert(UI.play, Button:new('MaxCoin_Icon', 10, 10, 5))
-    table.insert(UI.play, Button:new('Pause_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
+    table.insert(UI.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
+    table.insert(UI.play, Button:new(function() end, 'Coin_Icon', 10, 100, 5))
+    table.insert(UI.play, Button:new(function() gameState = 'pause' end, 'Pause_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
 
     -- pause
-    table.insert(UI.pause, Button:new('Play_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
-    table.insert(UI.pause, Button:new('Play_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
+    table.insert(UI.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
 
     -- game over
-    table.insert(UI.gameOver, Button:new('Shop_Icon', 20, 20, 3))
-    table.insert(UI.gameOver, Button:new('Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+    table.insert(UI.gameOver, Button:new(function() end, 'Shop_Icon', 20, 20, 3))
+    table.insert(UI.gameOver, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
 
     -- shop
 
 end
 
-function UI.drawButtons()
+function UI.getList()
     local list
     if gameState == 'menu' then
         list = UI.menu
@@ -46,6 +44,11 @@ function UI.drawButtons()
     elseif gameState == 'shop' then
         list = UI.shop
     end
+    return list
+end
+
+function UI.drawButtons()
+    local list = UI.getList()
     for tempo, button in ipairs(list) do
         love.graphics.draw(button.sprite, button.x, button.y, 0, button.scale, button.scale)
     end

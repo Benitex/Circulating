@@ -72,9 +72,8 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y)
-    if gameState == 'menu' or gameState == 'game over' then
-        if x >= love.graphics.getWidth()/2 - 16*5 and x <= love.graphics.getWidth()/2 + 16*5 and y >= love.graphics.getHeight()/2 - 16*5 and y <= love.graphics.getHeight() + 16*5 then
-            gameState = 'play'
-        end
+    -- Button inputs
+    for buttonNumber, button in ipairs(UI.getList()) do
+        button:clicked(x, y)
     end
 end
