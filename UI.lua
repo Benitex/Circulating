@@ -5,6 +5,7 @@
 Button = require 'Button'
 
 local UI = {}
+--UI.buttonList = {}
 UI.menu = {}
 UI.play = {}
 UI.pause = {}
@@ -22,6 +23,8 @@ function UI.loadButtons()
     table.insert(UI.play, Button:new(function() gameState = 'pause' end, 'Pause_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
 
     -- pause
+    table.insert(UI.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
+    table.insert(UI.play, Button:new(function() end, 'Coin_Icon', 10, 100, 5))
     table.insert(UI.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth() - 32*5 - 20, 20, 3))
 
     -- game over
@@ -74,6 +77,9 @@ end
 
 function UI.showTexts()
     if gameState == 'play' then
+        if math.ceil(countdown) > 0 then
+            love.graphics.print(math.ceil(countdown), love.graphics.getWidth()/2 - 6*7, love.graphics.getHeight()/2 - 6*7, 0, 7, 7)
+        end
         love.graphics.print(Shop.totalCoins, 110, 20, 0, 5, 5)
         love.graphics.print(Shop.coins, 110, 110, 0, 5, 5)
 

@@ -2,6 +2,9 @@
 -- Ball class --
 ----------------
 
+local Mouse = require 'Mouse'
+local Shop = require 'Shop'
+
 local Ball = {
     x = love.graphics.getWidth()/2,
     y = love.graphics.getHeight()/2,
@@ -35,6 +38,13 @@ function Ball:move(dt)
 
     self.speed = self.speed + dt*30
     self.size = self.size + dt*5
+
+    if ( love.mouse.getX() + Mouse.width >= self.x and love.mouse.getX() <= self.x + self.size ) and ( love.mouse.getY() + Mouse.height >= self.y and love.mouse.getY() <= self.y + self.size ) then
+        gameState = 'game over'
+        Shop.coins = 0
+        music:stop()
+        defeatSE:play()
+    end
 end
 
 return Ball
