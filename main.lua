@@ -4,6 +4,7 @@
 
 -- Classes
 local UI = require 'UI'
+local Sounds = require 'Sounds'
 local Mouse = require "Mouse"
 local Ball = require 'Ball'
 Shop = require 'Shop'
@@ -13,12 +14,6 @@ function love.load()
     font = love.graphics.newFont('font/pixelart.ttf')
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
-
-    -- Music and Sound Effects
-    music = love.audio.newSource('audio/Circulating.mp3', 'stream')
-    music:setLooping(true)
-    defeatSE = love.audio.newSource('audio/Defeat.mp3', 'stream')
-    defeatSE:setLooping(false)
 
     gameState = 'menu'
     countdown = 3
@@ -48,10 +43,10 @@ function love.draw()
 end
 
 function love.update(dt)
+    Sounds.play()
     if gameState == 'play' then
         countdown = countdown - dt
         if countdown < 0 then
-            music:play()
             Shop.receiveCoins(dt)
             for tempo, ball in ipairs(ballList) do
                 Shop.spawnCoins(dt)
@@ -73,12 +68,6 @@ function love.update(dt)
             ball.speed = 7*30
             ball.size = 15
         end
-
-    elseif gameState == 'pause' then
-        music:stop()
-
-    elseif gameState == 'shop' then
-        music:play()
     end
 end
 
@@ -87,6 +76,8 @@ function love.mousepressed(x, y)
     for buttonNumber, button in ipairs(UI.getList()) do
         button:clicked(x, y)
     end
+
+    -- Coins
     if Shop.coinsPickedOnHover == false then
         for coinNumber, coin in ipairs(Shop.coinsList) do
             if coin:clicked(x, y, Mouse.width, Mouse.height) then

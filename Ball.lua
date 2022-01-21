@@ -4,6 +4,7 @@
 
 local Mouse = require 'Mouse'
 local Shop = require 'Shop'
+local Sounds = require 'Sounds'
 
 local Ball = {
     x = love.graphics.getWidth()/2,
@@ -41,9 +42,9 @@ function Ball:move(dt)
 
     if ( love.mouse.getX() + Mouse.width >= self.x and love.mouse.getX() <= self.x + self.size ) and ( love.mouse.getY() + Mouse.height >= self.y and love.mouse.getY() <= self.y + self.size ) then
         gameState = 'game over'
+        countdown = 3
         Shop.coins = 0
-        music:stop()
-        defeatSE:play()
+        Sounds.defeatSE:play()
     end
 end
 

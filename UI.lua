@@ -5,7 +5,6 @@
 Button = require 'Button'
 
 local UI = {}
---UI.buttonList = {}
 UI.menu = {}
 UI.play = {}
 UI.pause = {}
