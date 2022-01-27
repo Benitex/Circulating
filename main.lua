@@ -20,13 +20,13 @@ function love.load()
     love.mouse.setVisible(false)
     love.window.setFullscreen(true) -- Will be moved to the settings screen
 
-    UI.loadButtons()
+    UI.load()
     ballList = {}
     table.insert(ballList, Ball:new())
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
+    UI.drawBackgrounds()
     if gameState == 'play' then
         if countdown < 0 then
             for index, coin in ipairs(Shop.coinsList) do

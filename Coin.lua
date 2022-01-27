@@ -22,7 +22,7 @@ end
 
 function Coin:clicked(x, y, width, height)
     if x + width >= self.x and x <= self.x + self.width and y + height >= self.y and y <= self.y + self.height then
-        Shop.coins = Shop.coins + Shop.coinsValue
+        Shop.money = Shop.money + Shop.coinsValue
         Shop.totalCoins = Shop.totalCoins + Shop.coinsValue
         return true
     else
@@ -32,7 +32,7 @@ end
 
 function Coin:hovered(x, y, width, height)
     if x + width >= self.x and x <= self.x + self.width and y + height >= self.y and y <= self.y + self.height then
-        Shop.coins = Shop.coins + Shop.coinsValue
+        Shop.money = Shop.money + Shop.coinsValue
         Shop.totalCoins = Shop.totalCoins + Shop.coinsValue
         return true
     else

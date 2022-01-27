@@ -6,11 +6,13 @@ local Coin = require 'Coin'
 
 local Shop = {}
 
-Shop.coins = 0
-Shop.totalCoins = 0
-Shop.coinsCooldown = 0
+Shop.temperature = 0
 
--- Coins
+Shop.money = 0
+Shop.totalMoney = 0
+Shop.moneyCooldown = 0
+
+-- Coins properties
 Shop.coinsList = {}
 Shop.coinsPickedOnHover = true
 Shop.coinsTempo = 0
@@ -19,11 +21,11 @@ Shop.coinScale = 3
 Shop.coinsValue = 5
 
 function Shop.receiveCoins(dt)
-    Shop.coinsCooldown = Shop.coinsCooldown + dt
-    if Shop.coinsCooldown >= 1 then
-        Shop.coins = Shop.coins + 1
-        Shop.totalCoins = Shop.totalCoins + 1
-        Shop.coinsCooldown = 0
+    Shop.moneyCooldown = Shop.moneyCooldown + dt
+    if Shop.moneyCooldown >= 1 then
+        Shop.money = Shop.money + 1
+        Shop.totalMoney = Shop.totalMoney + 1
+        Shop.moneyCooldown = 0
     end
 end
 

@@ -43,7 +43,7 @@ function Ball:move(dt)
     if ( love.mouse.getX() + Mouse.width >= self.x and love.mouse.getX() <= self.x + self.size ) and ( love.mouse.getY() + Mouse.height >= self.y and love.mouse.getY() <= self.y + self.size ) then
         gameState = 'game over'
         countdown = 3
-        Shop.coins = 0
+        Shop.money = 0
         Sounds.defeatSE:play()
     end
 end
