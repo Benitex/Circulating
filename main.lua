@@ -29,10 +29,10 @@ function love.draw()
     UI.drawBackgrounds()
     if gameState == 'play' then
         if countdown < 0 then
-            for index, coin in ipairs(Shop.coinsList) do
+            for coinNumber, coin in ipairs(Shop.coinsList) do
                 love.graphics.draw(coin.sprite, coin.x, coin.y, 0, coin.scale, coin.scale)
             end
-            for tempo, ball in ipairs(ballList) do
+            for ballNumber, ball in ipairs(ballList) do
                 love.graphics.circle('fill', ball.x, ball.y, ball.size)
             end
         end
@@ -52,7 +52,7 @@ function love.update(dt)
                 Shop.spawnCoins(dt)
                 if Shop.coinsPickedOnHover == true then
                     for coinNumber, coin in ipairs(Shop.coinsList) do
-                        if coin:hovered(love.mouse.getX(), love.mouse.getY(), Mouse.width, Mouse.height) then
+                        if coin:clicked() then
                             table.remove(Shop.coinsList, coinNumber)
                         end
                     end
@@ -80,7 +80,7 @@ function love.mousepressed(x, y)
     -- Coins
     if Shop.coinsPickedOnHover == false then
         for coinNumber, coin in ipairs(Shop.coinsList) do
-            if coin:clicked(x, y, Mouse.width, Mouse.height) then
+            if coin:clicked() then
                 table.remove(Shop.coinsList, coinNumber)
             end
         end
@@ -88,7 +88,18 @@ function love.mousepressed(x, y)
 end
 
 function love.keypressed(key)
-    if key == 'escape' then
-        love.event.quit()
+    if key == 'escape' or key == 'space' then
+        if gameState == 'play' then
+            gameState = 'pause'
+        elseif gameState == 'pause' then
+            gameState = 'pause'
+        else
+            love.event.quit()
+        end
     end
+end
+
+function areCirclesTouching(x1, y1, size1, x2, y2, size2)
+    local distance = math.sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
+    return distance < size1 + size2
 end

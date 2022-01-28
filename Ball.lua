@@ -39,8 +39,7 @@ function Ball:move(dt)
 
     self.speed = self.speed + dt*30
     self.size = self.size + dt*5
-
-    if ( love.mouse.getX() + Mouse.width >= self.x and love.mouse.getX() <= self.x + self.size ) and ( love.mouse.getY() + Mouse.height >= self.y and love.mouse.getY() <= self.y + self.size ) then
+    if areCirclesTouching(self.x, self.y, self.size, love.mouse.getX(), love.mouse.getY(), Mouse.size) then
         gameState = 'game over'
         countdown = 3
         Shop.money = 0

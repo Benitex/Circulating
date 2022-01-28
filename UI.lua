@@ -2,7 +2,7 @@
 -- UI elements --
 -----------------
 
-Button = require 'Button'
+local Button = require 'Button'
 
 local UI = {}
 
@@ -32,7 +32,9 @@ function UI.load()
     -- pause
     table.insert(UI.buttons.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
     table.insert(UI.buttons.play, Button:new(function() end, 'Coin_Icon', 10, 100, 5))
-    table.insert(UI.buttons.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3))
+    table.insert(UI.buttons.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+    --table.insert(UI.buttons.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3))
+    -- still not sure which one will be used
 
     -- game over
     table.insert(UI.buttons.gameOver, Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3))

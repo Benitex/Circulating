@@ -14,9 +14,9 @@ Shop.moneyCooldown = 0
 
 -- Coins properties
 Shop.coinsList = {}
-Shop.coinsPickedOnHover = true
+Shop.coinsPickedOnHover = false
 Shop.coinsTempo = 0
-Shop.coinSpawnTime = 0
+Shop.coinSpawnTime = 5
 Shop.coinScale = 3
 Shop.coinsValue = 5
 
