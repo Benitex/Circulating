@@ -4,7 +4,7 @@
 
 local Button = {
     x = 0, y = 0, height = 32, width = 32,
-    sprite = love.image, scale = 3, code = nil
+    sprite = love.image, scale = 3, code = nil, confirmed = false
 }
 Button.__index = Button
 
@@ -15,12 +15,13 @@ function Button:new(code, type, x, y, scale)
     self.x = x
     self.y = y
     self.type = type
-    if scale ~= nil then
-        self.scale = scale
-    end
+    self.scale = scale
     if self.type == 'Coin_Icon' or self.type == 'MaxCoin_Icon' then
         self.width = 16
         self.height = 16
+    elseif self.type == 'Plus_Icon' then
+        self.width = 12
+        self.height = 9
     end
     self.width = self.width * scale
     self.height = self.height * scale

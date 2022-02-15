@@ -6,7 +6,6 @@
 local UI = require 'UI'
 local Sounds = require 'Sounds'
 local Mouse = require "Mouse"
-local Ball = require 'Ball'
 Shop = require 'Shop'
 
 function love.load()
@@ -20,9 +19,8 @@ function love.load()
     love.mouse.setVisible(false)
     love.window.setFullscreen(true) -- Will be moved to the settings screen
 
+    Shop.load()
     UI.load()
-    ballList = {}
-    table.insert(ballList, Ball:new())
 end
 
 function love.draw()
@@ -32,7 +30,7 @@ function love.draw()
             for coinNumber, coin in ipairs(Shop.coinsList) do
                 love.graphics.draw(coin.sprite, coin.x, coin.y, 0, coin.scale, coin.scale)
             end
-            for ballNumber, ball in ipairs(ballList) do
+            for ballNumber, ball in ipairs(Shop.ballList) do
                 love.graphics.circle('fill', ball.x, ball.y, ball.size)
             end
         end
@@ -48,7 +46,7 @@ function love.update(dt)
         countdown = countdown - dt
         if countdown < 0 then
             Shop.receiveCoins(dt)
-            for tempo, ball in ipairs(ballList) do
+            for tempo, ball in ipairs(Shop.ballList) do
                 Shop.spawnCoins(dt)
                 if Shop.coinsPickedOnHover == true then
                     for coinNumber, coin in ipairs(Shop.coinsList) do
@@ -62,7 +60,7 @@ function love.update(dt)
         end
 
     elseif gameState == 'game over' then
-        for tempo, ball in ipairs(ballList) do
+        for ballNumber, ball in ipairs(Shop.ballList) do
             ball.x = love.graphics.getWidth()/2
             ball.y = love.graphics.getHeight()/2
             ball.speed = 7*30

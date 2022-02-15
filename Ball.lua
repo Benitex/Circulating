@@ -3,7 +3,6 @@
 ----------------
 
 local Mouse = require 'Mouse'
-local Shop = require 'Shop'
 local Sounds = require 'Sounds'
 
 local Ball = {

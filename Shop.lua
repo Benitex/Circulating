@@ -2,7 +2,9 @@
 -- Shop class --
 ----------------
 
+local ShopElement = require 'ShopElement'
 local Coin = require 'Coin'
+local Ball = require 'Ball'
 
 local Shop = {}
 
@@ -12,13 +14,22 @@ Shop.money = 0
 Shop.totalMoney = 0
 Shop.moneyCooldown = 0
 
--- Coins properties
+Shop.ballList = {}
 Shop.coinsList = {}
+Shop.elementsList = {}
+
+-- Coins properties
+
 Shop.coinsPickedOnHover = false
-Shop.coinsTempo = 0
-Shop.coinSpawnTime = 5
+Shop.coinSpawnTime = 0
 Shop.coinScale = 3
 Shop.coinsValue = 5
+
+function Shop.load()
+    table.insert(Shop.ballList, Ball:new())
+
+    table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+end
 
 function Shop.receiveCoins(dt)
     Shop.moneyCooldown = Shop.moneyCooldown + dt
@@ -29,6 +40,7 @@ function Shop.receiveCoins(dt)
     end
 end
 
+Shop.coinsTempo = 0
 function Shop.spawnCoins(dt)
     if Shop.coinSpawnTime > 0 then
         Shop.coinsTempo = Shop.coinsTempo + dt
