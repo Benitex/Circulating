@@ -53,7 +53,7 @@ function UI.load()
     -- shop
     table.insert(UI.buttons.shop, Button:new(function() gameState = 'menu' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 50, 30, 3))
     for elementNumber, shopElement in ipairs(Shop.elementsList) do
-        table.insert(UI.buttons.shop, Button:new(shopElement:upgrade(), 'Plus_Icon', love.graphics.getWidth() - 12*10 - 370, 270 + 30 * elementNumber, 10))
+        table.insert(UI.buttons.shop, Button:new(shopElement:upgrade(), 'Plus_Icon', (127 + math.floor(1 + 1 * (elementNumber+1)/2)) * 12 , (9 + ((9 + 5) * elementNumber)) * 12, 12))
     end
 
     -- settings
