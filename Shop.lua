@@ -4,7 +4,6 @@
 
 local ShopElement = require 'ShopElement'
 local Coin = require 'Coin'
-local Ball = require 'Ball'
 
 local Shop = {}
 
@@ -18,21 +17,24 @@ Shop.ballList = {}
 Shop.coinsList = {}
 Shop.elementsList = {}
 
--- Coins properties
-
+-- Coins elements
 Shop.coinsPickedOnHover = false
 Shop.coinSpawnTime = 0
 Shop.coinScale = 3
 Shop.coinsValue = 5
 
-function Shop.load()
-    table.insert(Shop.ballList, Ball:new())
+-- Ball elements
+Shop.ballRandomInitialPosition = false
+Shop.numberOfBalls = 1
 
+function Shop.load()
+    table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
     table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+    table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition'))
 end
 
 function Shop.receiveCoins(dt)
-    Shop.moneyCooldown = Shop.moneyCooldown + dt
+    Shop.moneyCooldown = Shop.moneyCooldown + dt + (-Shop.temperature * 0.1)
     if Shop.moneyCooldown >= 1 then
         Shop.money = Shop.money + 1
         Shop.totalMoney = Shop.totalMoney + 1

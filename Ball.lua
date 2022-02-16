@@ -3,7 +3,6 @@
 ----------------
 
 local Mouse = require 'Mouse'
-local Sounds = require 'Sounds'
 
 local Ball = {
     x = love.graphics.getWidth()/2,
@@ -13,11 +12,17 @@ local Ball = {
 }
 Ball.__index = Ball
 
-function Ball:new()
+function Ball:new(randomPosition)
     self = setmetatable({}, self)
 
-    self.x = love.graphics.getWidth()/2
-    self.y = love.graphics.getHeight()/2
+    if randomPosition then
+        self.x = love.math.random(self.size, love.graphics.getWidth() - self.size)
+        self.y = love.math.random(self.size, love.graphics.getHeight() - self.size)
+    else
+        self.x = love.graphics.getWidth()/2
+        self.y = love.graphics.getHeight()/2
+    end
+
     self.speed = 7*30
     self.size = 15
 
@@ -38,12 +43,10 @@ function Ball:move(dt)
 
     self.speed = self.speed + dt*30
     self.size = self.size + dt*5
-    if areCirclesTouching(self.x, self.y, self.size, love.mouse.getX(), love.mouse.getY(), Mouse.size) then
-        gameState = 'game over'
-        countdown = 3
-        Shop.money = 0
-        Sounds.defeatSE:play()
-    end
+end
+
+function Ball:touchedByMouse()
+    return areCirclesTouching(self.x, self.y, self.size, love.mouse.getX(), love.mouse.getY(), Mouse.size)
 end
 
 return Ball

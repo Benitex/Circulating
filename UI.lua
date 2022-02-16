@@ -3,8 +3,7 @@
 -----------------
 
 local Button = require 'Button'
-local Shop = require 'Shop'
-local ShopElement = require 'ShopElement'
+local Ball = require 'Ball'
 
 local UI = {}
 
@@ -22,11 +21,14 @@ UI.backgrounds.shop = love.graphics.newImage('graphics/ui/ShopUI.png')
 function UI.load()
     UI.backgrounds.shop:setFilter('nearest', 'nearest')
 
-    -- Buttons
-
     -- menu
     table.insert(UI.buttons.menu, Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3))
-    table.insert(UI.buttons.menu, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+    table.insert(UI.buttons.menu, Button:new(function()
+        gameState = 'play'
+        for i = 1, Shop.numberOfBalls, 1 do
+            table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+        end
+    end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
 
     -- play
     table.insert(UI.buttons.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
@@ -41,7 +43,12 @@ function UI.load()
 
     -- game over
     table.insert(UI.buttons.gameOver, Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3))
-    table.insert(UI.buttons.gameOver, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+    table.insert(UI.buttons.gameOver, Button:new(function()
+        gameState = 'play'
+        for i = 1, Shop.numberOfBalls, 1 do
+            table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+        end
+    end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
 
     -- shop
     table.insert(UI.buttons.shop, Button:new(function() gameState = 'menu' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 50, 30, 3))
