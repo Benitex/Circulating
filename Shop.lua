@@ -29,8 +29,12 @@ Shop.numberOfBalls = 1
 
 function Shop.load()
     table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
-    table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
     table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition'))
+    if playingOnMobile then
+        Shop.coinsPickedOnHover = true
+    else
+        table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+    end
 end
 
 function Shop.receiveCoins(dt)

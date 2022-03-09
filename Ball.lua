@@ -30,14 +30,14 @@ function Ball:new(randomPosition)
 end
 
 function Ball:move(dt)
-    if love.mouse.getX() > self.x then
+    if Mouse.x > self.x then
         self.x = self.x + self.speed * dt
-    elseif love.mouse.getX() < self.x then
+    elseif Mouse.x < self.x then
         self.x = self.x - self.speed * dt
     end
-    if love.mouse.getY() > self.y then
+    if Mouse.y > self.y then
         self.y = self.y + self.speed * dt
-    elseif love.mouse.getY() < self.y then
+    elseif Mouse.y < self.y then
         self.y = self.y - self.speed * dt
     end
 
@@ -46,7 +46,7 @@ function Ball:move(dt)
 end
 
 function Ball:touchedByMouse()
-    return areCirclesTouching(self.x, self.y, self.size, love.mouse.getX(), love.mouse.getY(), Mouse.size)
+    return areCirclesTouching(self.x, self.y, self.size, Mouse.x, Mouse.y, Mouse.size)
 end
 
 return Ball

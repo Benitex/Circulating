@@ -9,8 +9,13 @@ local Mouse = require "Mouse"
 Shop = require 'Shop'
 
 function love.load()
+    playingOnMobile = false
+    if love.system.getOS() == 'iOS' or love.system.getOS() == 'Android' then
+      playingOnMobile = true
+    end
+
     -- Font
-    font = love.graphics.newFont('font/pixelart.ttf')
+    local font = love.graphics.newFont('font/pixelart.ttf')
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
 
@@ -41,6 +46,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    Mouse.update()
     Sounds.play()
     if gameState == 'play' then
         countdown = countdown - dt
@@ -70,6 +76,13 @@ function love.update(dt)
     end
 end
 
+function areCirclesTouching(x1, y1, size1, x2, y2, size2)
+    local distance = math.sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
+    return distance < size1 + size2
+end
+
+-- Desktop controls
+
 function love.mousepressed(x, y)
     -- Buttons
     for buttonNumber, button in ipairs(UI.getList()) do
@@ -77,7 +90,7 @@ function love.mousepressed(x, y)
     end
 
     -- Coins
-    if Shop.coinsPickedOnHover == false then
+    if not Shop.coinsPickedOnHover then
         for coinNumber, coin in ipairs(Shop.coinsList) do
             if coin:clicked() then
                 table.remove(Shop.coinsList, coinNumber)
@@ -91,14 +104,37 @@ function love.keypressed(key)
         if gameState == 'play' then
             gameState = 'pause'
         elseif gameState == 'pause' then
-            gameState = 'pause'
+            gameState = 'play'
         else
             love.event.quit()
         end
     end
 end
 
-function areCirclesTouching(x1, y1, size1, x2, y2, size2)
-    local distance = math.sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
-    return distance < size1 + size2
+-- Touchscreen controls
+
+function love.touchpressed(id, x, y)
+    -- Buttons
+    for buttonNumber, button in ipairs(UI.getList()) do
+        button:clicked(x, y)
+    end
+end
+
+function love.touchmoved(id, x, y)
+    if playingOnMobile then
+      Mouse.x = x
+      Mouse.y = y
+    end
+end
+
+function love.touchreleased()
+    if playingOnMobile then
+        if countdown < 0 then
+            if gameState == 'play' then
+                gameState = 'pause'
+            elseif gameState == 'pause' then
+                gameState = 'play'
+            end
+        end
+    end
 end
