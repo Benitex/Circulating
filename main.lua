@@ -9,12 +9,7 @@ local Mouse = require "Mouse"
 Shop = require 'Shop'
 
 function love.load()
-    playingOnMobile = false
-    if love.system.getOS() == 'iOS' or love.system.getOS() == 'Android' then
-      playingOnMobile = true
-    end
-
-    -- Font
+    -- Set font
     local font = love.graphics.newFont('font/pixelart.ttf')
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
@@ -24,6 +19,12 @@ function love.load()
     love.mouse.setVisible(false)
     love.window.setFullscreen(true) -- Will be moved to the settings screen
 
+    -- Get the OS
+    playingOnMobile = false
+    if love.system.getOS() == 'iOS' or love.system.getOS() == 'Android' then
+        playingOnMobile = true
+    end
+
     Shop.load()
     UI.load()
 end
@@ -32,10 +33,10 @@ function love.draw()
     UI.drawBackgrounds()
     if gameState == 'play' then
         if countdown < 0 then
-            for coinNumber, coin in ipairs(Shop.coinsList) do
+            for tempo, coin in ipairs(Shop.coinsList) do
                 love.graphics.draw(coin.sprite, coin.x, coin.y, 0, coin.scale, coin.scale)
             end
-            for ballNumber, ball in ipairs(Shop.ballList) do
+            for tempo, ball in ipairs(Shop.ballList) do
                 love.graphics.circle('fill', ball.x, ball.y, ball.size)
             end
         end
@@ -85,7 +86,7 @@ end
 
 function love.mousepressed(x, y)
     -- Buttons
-    for buttonNumber, button in ipairs(UI.getList()) do
+    for tempo, button in ipairs(UI.getList()) do
         button:clicked(x, y)
     end
 
@@ -115,15 +116,15 @@ end
 
 function love.touchpressed(id, x, y)
     -- Buttons
-    for buttonNumber, button in ipairs(UI.getList()) do
+    for tempo, button in ipairs(UI.getList()) do
         button:clicked(x, y)
     end
 end
 
 function love.touchmoved(id, x, y)
     if playingOnMobile then
-      Mouse.x = x
-      Mouse.y = y
+        Mouse.x = x
+        Mouse.y = y
     end
 end
 

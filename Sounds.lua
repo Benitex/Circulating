@@ -1,7 +1,7 @@
-local Sounds = {}
-Sounds.mute = false
-Sounds.BGM = love.audio
-Sounds.defeatSE = love.audio.newSource('audio/Defeat.mp3', 'stream')
+local Sounds = {
+    mute = false,
+    BGM = love.audio, defeatSE = love.audio.newSource('audio/Defeat.mp3', 'stream')
+}
 
 function Sounds.load()
     Sounds.BGM:setLooping(true)

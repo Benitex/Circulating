@@ -1,11 +1,11 @@
-local Mouse = {}
-Mouse.sprites = {}
-Mouse.sprites.player = love.graphics.newImage('graphics/mouse/Player.png')
-Mouse.sprites.menus = love.graphics.newImage('graphics/mouse/Mouse.png')
-Mouse.x = 0
-Mouse.y = 0
-Mouse.size = 16
-Mouse.scale = 1
+local Mouse = {
+    x = 0, y = 0, size = 16, scale = 1,
+
+    sprites = {
+        player = love.graphics.newImage('graphics/mouse/Player.png'),
+        menus = love.graphics.newImage('graphics/mouse/Mouse.png')
+    }
+}
 
 function Mouse.draw()
     if gameState == 'play' then

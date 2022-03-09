@@ -4,7 +4,7 @@
 
 local Button = {
     x = 0, y = 0, height = 32, width = 32,
-    sprite = love.image, scale = 3, code = nil, confirmed = false
+    sprite = love.image, scale = 3, code = nil
 }
 Button.__index = Button
 

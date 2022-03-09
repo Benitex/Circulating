@@ -5,59 +5,61 @@
 local Button = require 'Button'
 local Ball = require 'Ball'
 
-local UI = {}
-
-UI.buttons = {}
-UI.buttons.menu = {}
-UI.buttons.play = {}
-UI.buttons.pause = {}
-UI.buttons.gameOver = {}
-UI.buttons.settings = {}
-UI.buttons.shop = {}
-
-UI.backgrounds = {}
-UI.backgrounds.shop = love.graphics.newImage('graphics/ui/ShopUI.png')
+local UI = {
+    backgrounds = {
+        shop = love.graphics.newImage('graphics/ui/ShopUI.png')
+    }
+}
 
 function UI.load()
-    UI.backgrounds.shop:setFilter('nearest', 'nearest')
+    -- Buttons and icons
+    UI.buttons = {
+        menu = {
+            Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function()
+                gameState = 'play'
+                for tempo = 1, Shop.numberOfBalls, 1 do
+                    table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+                end
+            end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5)
+        },
 
-    -- menu
-    table.insert(UI.buttons.menu, Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3))
-    table.insert(UI.buttons.menu, Button:new(function()
-        gameState = 'play'
-        for i = 1, Shop.numberOfBalls, 1 do
-            table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
-        end
-    end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+        play = {
+            Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5),
+            Button:new(function() end, 'Coin_Icon', 10, 100, 5),
+            Button:new(function() gameState = 'pause' end, 'Pause_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3)
+        },
 
-    -- play
-    table.insert(UI.buttons.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
-    table.insert(UI.buttons.play, Button:new(function() end, 'Coin_Icon', 10, 100, 5))
-    table.insert(UI.buttons.play, Button:new(function() gameState = 'pause' end, 'Pause_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3))
+        pause = {
+            Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5),
+            Button:new(function() end, 'Coin_Icon', 10, 100, 5),
+            Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5),
+            Button:new(function() gameState = 'play' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3)
+        },
 
-    -- pause
-    table.insert(UI.buttons.play, Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5))
-    table.insert(UI.buttons.play, Button:new(function() end, 'Coin_Icon', 10, 100, 5))
-    table.insert(UI.buttons.pause, Button:new(function() gameState = 'play' end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
-    table.insert(UI.buttons.pause, Button:new(function() gameState = 'play' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 20, 20, 3))
+        gameOver = {
+            Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function()
+                gameState = 'play'
+                for tempo = 1, Shop.numberOfBalls, 1 do
+                    table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+                end
+            end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5)
+        },
 
-    -- game over
-    table.insert(UI.buttons.gameOver, Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3))
-    table.insert(UI.buttons.gameOver, Button:new(function()
-        gameState = 'play'
-        for i = 1, Shop.numberOfBalls, 1 do
-            table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
-        end
-    end, 'Play_Icon', love.graphics.getWidth()/2 - 16*5, love.graphics.getHeight()/2 - 16*5, 5))
+        shop = {
+            Button:new(function() gameState = 'menu' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 50, 30, 3),
+        },
 
-    -- shop
-    table.insert(UI.buttons.shop, Button:new(function() gameState = 'menu' end, 'Exit_Icon', love.graphics.getWidth() - 32*3 - 50, 30, 3))
+        settings = { }
+    }
+
+    -- Shop elements
     for elementNumber, shopElement in ipairs(Shop.elementsList) do
         table.insert(UI.buttons.shop, Button:new(shopElement:upgrade(), 'Plus_Icon', (127 + math.floor(1 + 1 * (elementNumber+1)/2)) * 12 , (9 + ((9 + 5) * elementNumber)) * 12, 12))
     end
 
-    -- settings
-
+    UI.backgrounds.shop:setFilter('nearest', 'nearest')
 end
 
 function UI.getList()

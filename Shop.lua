@@ -5,27 +5,19 @@
 local ShopElement = require 'ShopElement'
 local Coin = require 'Coin'
 
-local Shop = {}
+local Shop = {
+    temperature = 0,
+    money = 0, totalMoney = 0, moneyCooldown = 0,
 
-Shop.temperature = 0
+    -- Lists
+    ballList = {}, coinsList = {}, elementsList = {},
 
-Shop.money = 0
-Shop.totalMoney = 0
-Shop.moneyCooldown = 0
+    -- Coins elements
+    coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
 
-Shop.ballList = {}
-Shop.coinsList = {}
-Shop.elementsList = {}
-
--- Coins elements
-Shop.coinsPickedOnHover = false
-Shop.coinSpawnTime = 0
-Shop.coinScale = 3
-Shop.coinsValue = 5
-
--- Ball elements
-Shop.ballRandomInitialPosition = false
-Shop.numberOfBalls = 1
+    -- Ball elements
+    ballRandomInitialPosition = false, numberOfBalls = 1
+}
 
 function Shop.load()
     table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
