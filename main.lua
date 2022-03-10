@@ -65,6 +65,9 @@ function love.update(dt)
                     for ballNumber, ball in ipairs(Shop.ballList) do
                         table.remove(Shop.ballList, ballNumber)
                     end
+                    for coinNumber, coin in ipairs(Shop.coinsList) do
+                        table.remove(Shop.coinsList, coinNumber)
+                    end
                     Sounds.defeatSE:play()
                     Shop.money = 0
                     gameState = 'game over'
