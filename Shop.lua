@@ -10,7 +10,12 @@ local Shop = {
     money = 0, totalMoney = 0, moneyCooldown = 0,
 
     -- Lists
-    ballList = {}, coinsList = {}, elementsList = {},
+    ballList = {}, coinsList = {},
+
+    elementsList = {
+        ShopElement:new('coinsSpawnTime'),
+        ShopElement:new('ballInitialPosition')
+    },
 
     -- Coins elements
     coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
@@ -20,8 +25,6 @@ local Shop = {
 }
 
 function Shop.load()
-    table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
-    table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition'))
     if playingOnMobile then
         Shop.coinsPickedOnHover = true
     else

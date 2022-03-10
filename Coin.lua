@@ -3,6 +3,7 @@
 ----------------
 
 local Mouse = require 'Mouse'
+local Window = require 'Window'
 
 local Coin = {
     x = 0, y = 0, size = 8,
@@ -15,8 +16,8 @@ function Coin:new(scale)
 
     self.scale = scale
     self.size = self.size * scale
-    self.x = love.math.random(love.graphics.getWidth() - self.size*2 * self.scale)
-    self.y = love.math.random(love.graphics.getHeight() - self.size*2 * self.scale)
+    self.x = love.math.random(Window.width - self.size*2 * self.scale)
+    self.y = love.math.random(Window.height - self.size*2 * self.scale)
 
     return self
 end

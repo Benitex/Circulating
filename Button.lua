@@ -2,6 +2,8 @@
 -- Button class --
 ------------------
 
+local Window = require 'Window'
+
 local Button = {
     x = 0, y = 0, height = 32, width = 32,
     sprite = love.image, scale = 3, code = nil
@@ -15,7 +17,7 @@ function Button:new(code, type, x, y, scale)
     self.x = x
     self.y = y
     self.type = type
-    self.scale = scale
+    self.scale = scale * Window.screenWidthScale
     if self.type == 'Coin_Icon' or self.type == 'MaxCoin_Icon' then
         self.width = 16
         self.height = 16

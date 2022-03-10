@@ -3,10 +3,11 @@
 ----------------
 
 local Mouse = require 'Mouse'
+local Window = require 'Window'
 
 local Ball = {
-    x = love.graphics.getWidth()/2,
-    y = love.graphics.getHeight()/2,
+    x = Window.width/2,
+    y = Window.height/2,
     speed = 7*30,
     size = 15
 }
@@ -16,11 +17,11 @@ function Ball:new(randomPosition)
     self = setmetatable({}, self)
 
     if randomPosition then
-        self.x = love.math.random(self.size, love.graphics.getWidth() - self.size)
-        self.y = love.math.random(self.size, love.graphics.getHeight() - self.size)
+        self.x = love.math.random(self.size, Window.width - self.size)
+        self.y = love.math.random(self.size, Window.height - self.size)
     else
-        self.x = love.graphics.getWidth()/2
-        self.y = love.graphics.getHeight()/2
+        self.x = Window.width/2
+        self.y = Window.height/2
     end
 
     self.speed = 7*30

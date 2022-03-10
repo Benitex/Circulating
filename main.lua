@@ -9,21 +9,19 @@ local Mouse = require "Mouse"
 Shop = require 'Shop'
 
 function love.load()
-    -- Set font
-    local font = love.graphics.newFont('font/pixelart.ttf')
-    font:setFilter("nearest", "nearest")
-    love.graphics.setFont(font)
-
     gameState = 'menu'
     countdown = 3
-    love.mouse.setVisible(false)
-    love.window.setFullscreen(true) -- Will be moved to the settings screen
 
     -- Get the OS
     playingOnMobile = false
     if love.system.getOS() == 'iOS' or love.system.getOS() == 'Android' then
         playingOnMobile = true
     end
+
+    -- Set font
+    local font = love.graphics.newFont('font/pixelart.ttf')
+    font:setFilter("nearest", "nearest")
+    love.graphics.setFont(font)
 
     Shop.load()
     UI.load()
@@ -42,7 +40,7 @@ function love.draw()
         end
     end
     UI.drawButtons()
-    UI.showTexts()
+    UI.drawTexts()
     Mouse.draw()
 end
 
