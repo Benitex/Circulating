@@ -2,7 +2,7 @@
 -- Sounds Class --
 ------------------
 
-local Settings = require 'Settings'
+local Settings = require 'src/Settings'
 
 local Sounds = {
     BGM = love.audio, defeatSE = love.audio.newSource('audio/Defeat.mp3', 'stream')
@@ -10,7 +10,7 @@ local Sounds = {
 
 function Sounds.load()
     love.audio.setVolume(Settings.volume)
-    Sounds.BGM:setLooping(true)
+    --Sounds.BGM:setLooping(true) -- no BGM yet
 end
 
 function Sounds.play()

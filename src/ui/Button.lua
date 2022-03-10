@@ -2,7 +2,7 @@
 -- Button class --
 ------------------
 
-local Window = require 'Window'
+local Window = require 'src/ui/Window'
 
 local Button = {
     x = 0, y = 0, height = 32, width = 32,

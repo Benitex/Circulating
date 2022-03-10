@@ -2,9 +2,9 @@
 -- UI Class --
 --------------
 
-local Button = require 'Button'
-local Ball = require 'Ball'
-local Window = require 'Window'
+local Button = require 'src/ui/Button'
+local Ball = require 'src/Ball'
+local Window = require 'src/ui/Window'
 
 local UI = {
     backgrounds = {

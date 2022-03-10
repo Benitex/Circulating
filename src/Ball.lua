@@ -2,8 +2,8 @@
 -- Ball class --
 ----------------
 
-local Mouse = require 'Mouse'
-local Window = require 'Window'
+local Mouse = require 'src/Mouse'
+local Window = require 'src/ui/Window'
 
 local Ball = {
     x = Window.width/2,

@@ -1,3 +1,7 @@
+-----------------
+-- Mouse Class --
+-----------------
+
 local Mouse = {
     x = 0, y = 0, size = 16, scale = 1,
 

@@ -2,7 +2,7 @@
 -- Window Class --
 ------------------
 
-local Settings = require 'Settings'
+local Settings = require 'src/Settings'
 
 local Window = {
     width = 1920, height = 1080, screenWidthScale = 1, screenHeightScale = 1

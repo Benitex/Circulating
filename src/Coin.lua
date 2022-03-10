@@ -2,8 +2,8 @@
 -- Coin Class --
 ----------------
 
-local Mouse = require 'Mouse'
-local Window = require 'Window'
+local Mouse = require 'src/Mouse'
+local Window = require 'src/ui/Window'
 
 local Coin = {
     x = 0, y = 0, size = 8,
@@ -14,7 +14,7 @@ Coin.__index = Coin
 function Coin:new(scale)
     self = setmetatable({}, self)
 
-    self.scale = scale
+    self.scale = scale * Window.screenWidthScale
     self.size = self.size * scale
     self.x = love.math.random(Window.width - self.size*2 * self.scale)
     self.y = love.math.random(Window.height - self.size*2 * self.scale)

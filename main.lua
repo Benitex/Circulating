@@ -3,10 +3,10 @@
 -----------
 
 -- Classes
-local UI = require 'UI'
-local Sounds = require 'Sounds'
-local Mouse = require "Mouse"
-Shop = require 'Shop'
+local UI = require 'src/ui/UI'
+local Sounds = require 'src/Sounds'
+local Mouse = require 'src/Mouse'
+Shop = require 'src/shop/Shop'
 
 function love.load()
     gameState = 'menu'

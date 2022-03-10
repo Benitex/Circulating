@@ -2,8 +2,8 @@
 -- Shop class --
 ----------------
 
-local ShopElement = require 'ShopElement'
-local Coin = require 'Coin'
+local ShopElement = require 'src/shop/ShopElement'
+local Coin = require 'src/Coin'
 
 local Shop = {
     temperature = 0,
