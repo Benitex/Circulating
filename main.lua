@@ -7,6 +7,7 @@ local UI = require 'src/ui/UI'
 local Sounds = require 'src/Sounds'
 local Mouse = require 'src/Mouse'
 Shop = require 'src/shop/Shop'
+local File = require 'src/File'
 
 function love.load()
     gameState = 'menu'
@@ -23,6 +24,7 @@ function love.load()
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
 
+    File.load()
     Shop.load()
     UI.load()
 end
@@ -72,6 +74,7 @@ function love.update(dt)
                     Shop.money = 0
                     gameState = 'game over'
                     countdown = 3
+                    File.save()
                 end
             end
         end
@@ -108,6 +111,7 @@ function love.keypressed(key)
         elseif gameState == 'pause' then
             gameState = 'play'
         else
+            File.save()
             love.event.quit()
         end
     end
