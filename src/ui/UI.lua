@@ -52,7 +52,10 @@ function UI.load()
         },
 
         shop = {
-            Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 3),
+            Button:new(function()
+                File.save()
+                gameState = 'menu'
+            end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 3),
         },
 
         settings = { }

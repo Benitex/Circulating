@@ -2,7 +2,7 @@
 -- Shop class --
 ----------------
 
-local ShopElement = require 'src/shop/ShopElement'
+ShopElement = require 'src/shop/ShopElement'
 local Coin = require 'src/Coin'
 
 local Shop = {
@@ -23,11 +23,13 @@ function Shop.load()
     if playingOnMobile then
         Shop.coinsPickedOnHover = true
     else
-        table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
-        table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition'))
-        for tempo, element in ipairs(Shop.elementsList) do
-            if element.type == 'coinsSpawnTime' and element.level > 1 then
-                table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+        if #Shop.elementsList == 0 then
+            table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime', 1))
+            table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition', 1))
+            for tempo, element in ipairs(Shop.elementsList) do
+                if element.type == 'coinsSpawnTime' and element.level > 1 then
+                    table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover', 1))
+                end
             end
         end
     end

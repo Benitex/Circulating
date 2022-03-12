@@ -23,11 +23,11 @@ ShopElement.__index = ShopElement
 
 --]]
 
-function ShopElement:new(type)
+function ShopElement:new(type, level)
     self = setmetatable({}, self)
 
     self.type = type
-    self.level = 1
+    self.level = level
     self.priceMultiplier = 1.5
 
     if self.type == 'coinsPickedOnHover' then
@@ -51,6 +51,10 @@ function ShopElement:new(type)
         self.text = 'Random Circle Position\nThe circle starts at a random\nposition.'
     end
 
+    if self.level > 1 then
+        self.price = self.price * self.priceMultiplier ^ self.level
+    end
+
     return self
 end
 
@@ -72,9 +76,8 @@ function ShopElement:upgrade()
                 end
 
                 self.level = self.level + 1
-                self.price = self.price * self.priceMultiplier
                 Shop.totalMoney = Shop.totalMoney - self.price
-                Shop.temperature = Shop.temperature + self.temperature
+                --Shop.temperature = Shop.temperature + self.temperature TODO
             end
         end
     end

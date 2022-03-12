@@ -5,7 +5,7 @@
 -- Classes
 local Sounds = require 'src/Sounds'
 local Mouse = require 'src/Mouse'
-local File = require 'src/File'
+File = require 'src/File'
 UI = require 'src/ui/UI'
 Shop = require 'src/shop/Shop'
 
