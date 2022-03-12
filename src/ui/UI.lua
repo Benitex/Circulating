@@ -19,7 +19,7 @@ function UI.load()
     -- Buttons and icons
     UI.buttons = {
         menu = {
-            Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
                 for tempo = 1, Shop.numberOfBalls, 1 do
@@ -42,7 +42,7 @@ function UI.load()
         },
 
         gameOver = {
-            Button:new(function() gameState = 'shop' end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
                 for tempo = 1, Shop.numberOfBalls, 1 do
@@ -58,14 +58,15 @@ function UI.load()
         settings = { }
     }
 
-    -- Shop elements
+    UI.backgrounds.shop:setFilter('nearest', 'nearest')
+end
+
+function UI.loadShopButtons()
     for elementNumber, shopElement in ipairs(Shop.elementsList) do
-        local x = (127 + math.floor(1 + 1 * (elementNumber+1)/2)) * 12*Window.screenWidthScale
+        local x = (128 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
         local y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
         table.insert(UI.buttons.shop, Button:new(shopElement:upgrade(), 'Plus_Icon', x, y, 12))
     end
-
-    UI.backgrounds.shop:setFilter('nearest', 'nearest')
 end
 
 function UI.getList()
@@ -105,7 +106,20 @@ function UI.drawTexts()
         love.graphics.print("Game Over", Window.width/2 - 36*7*Window.screenWidthScale, Window.height/2 - 12*7*Window.screenHeightScale - 100, 0, 7*Window.screenWidthScale, 7*Window.screenHeightScale)
 
     elseif gameState == 'shop' then
-        
+        for elementNumber, element in ipairs(Shop.elementsList) do
+            local x, y
+            x = 21 * 12*Window.screenHeightScale
+            y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
+            love.graphics.print(element.text, x, y, 0, 4*Window.screenWidthScale, 4*Window.screenHeightScale)
+
+            if element.price < 100 then
+                x = (106 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
+            else
+                x = (103 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
+            end
+            y = (10 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
+            love.graphics.print(element.price, x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+        end
     end
 end
 

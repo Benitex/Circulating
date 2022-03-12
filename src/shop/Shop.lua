@@ -10,12 +10,7 @@ local Shop = {
     money = 0, totalMoney = 0, moneyCooldown = 0,
 
     -- Lists
-    ballList = {}, coinsList = {},
-
-    elementsList = {
-        ShopElement:new('coinsSpawnTime'),
-        ShopElement:new('ballInitialPosition')
-    },
+    ballList = {}, coinsList = {}, elementsList = {},
 
     -- Coins elements
     coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
@@ -28,8 +23,16 @@ function Shop.load()
     if playingOnMobile then
         Shop.coinsPickedOnHover = true
     else
-        table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+        table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime'))
+        table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition'))
+        for tempo, element in ipairs(Shop.elementsList) do
+            if element.type == 'coinsSpawnTime' and element.level > 1 then
+                table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover'))
+            end
+        end
     end
+    UI.loadShopButtons()
+    gameState = 'shop'
 end
 
 function Shop.receiveCoins(dt)

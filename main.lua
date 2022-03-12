@@ -3,11 +3,11 @@
 -----------
 
 -- Classes
-local UI = require 'src/ui/UI'
 local Sounds = require 'src/Sounds'
 local Mouse = require 'src/Mouse'
-Shop = require 'src/shop/Shop'
 local File = require 'src/File'
+UI = require 'src/ui/UI'
+Shop = require 'src/shop/Shop'
 
 function love.load()
     gameState = 'menu'
@@ -25,7 +25,6 @@ function love.load()
     love.graphics.setFont(font)
 
     File.load()
-    Shop.load()
     UI.load()
 end
 
