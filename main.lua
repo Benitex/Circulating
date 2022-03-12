@@ -52,26 +52,15 @@ function love.update(dt)
         countdown = countdown - dt
         if countdown < 0 then
             Shop.receiveCoins(dt)
+            Shop.spawnCoins(dt)
             for tempo, ball in ipairs(Shop.ballList) do
-                Shop.spawnCoins(dt)
-                if Shop.coinsPickedOnHover then
-                    for coinNumber, coin in ipairs(Shop.coinsList) do
-                        if coin:clicked() then
-                            table.remove(Shop.coinsList, coinNumber)
-                        end
-                    end
-                end
                 ball:move(dt)
                 if ball:touchedByMouse() then
-                    for ballNumber, ball in ipairs(Shop.ballList) do
-                        table.remove(Shop.ballList, ballNumber)
-                    end
-                    for coinNumber, coin in ipairs(Shop.coinsList) do
-                        table.remove(Shop.coinsList, coinNumber)
-                    end
+                    Shop.ballList = {}
+                    Shop.coinsList = {}
                     Sounds.defeatSE:play()
-                    Shop.money = 0
                     gameState = 'game over'
+                    Shop.money = 0
                     countdown = 3
                     File.save()
                 end

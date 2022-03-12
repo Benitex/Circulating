@@ -23,7 +23,7 @@ function Coin:new(scale)
 end
 
 function Coin:clicked()
-    if areCirclesTouching(self.x, self.y, self.size, love.mouse.getX(), love.mouse.getY(), Mouse.size) then
+    if areCirclesTouching(self.x, self.y, self.size, Mouse.x, Mouse.y, Mouse.size) then
         Shop.money = Shop.money + Shop.coinsValue
         Shop.totalMoney = Shop.totalMoney + Shop.coinsValue
         return true

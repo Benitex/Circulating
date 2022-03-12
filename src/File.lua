@@ -12,7 +12,7 @@ function File.save()
         local lineNumber = 1
         for line in love.filesystem.lines('save.sav') do
             if lineNumber == 1 then
-                moneyBackup = line
+                moneyBackup = tonumber(line)
             else
                 if lineNumber%2 == 0 then
                     type = line
@@ -42,7 +42,7 @@ function File.load()
         local type, level
         for line in love.filesystem.lines('save.sav') do
             if lineNumber == 1 then
-                Shop.totalMoney = line
+                Shop.totalMoney = tonumber(line)
             else
                 if lineNumber%2 == 0 then
                     type = line

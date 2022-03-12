@@ -26,15 +26,41 @@ function Shop.load()
         if #Shop.elementsList == 0 then
             table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime', 1))
             table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition', 1))
-            for tempo, element in ipairs(Shop.elementsList) do
-                if element.type == 'coinsSpawnTime' and element.level > 1 then
-                    table.insert(Shop.elementsList, ShopElement:new('coinsPickedOnHover', 1))
-                end
-            end
         end
     end
     UI.loadShopButtons()
     gameState = 'shop'
+end
+
+function Shop.update()
+    local newShop = {}
+
+    -- Insert elements upgrades
+    for tempo, element in ipairs(Shop.elementsList) do
+        table.insert(newShop, ShopElement:new(element.type, element.level))
+    end
+    Shop.elementsList = newShop
+
+    -- Insert unlockable elements
+    for tempo, element in ipairs(newShop) do
+        if element.type == 'coinsSpawnTime' and element.level > 1 then
+            Shop.addElement('coinsPickedOnHover')
+        end
+    end
+
+    File.save()
+end
+
+function Shop.addElement(type)
+    local alreadyExists = false
+    for tempo, element in ipairs(Shop.elementsList) do
+        if element.type == type then
+            alreadyExists = true
+        end
+    end
+    if not alreadyExists then
+        table.insert(Shop.elementsList, ShopElement:new(type, 1))
+    end
 end
 
 function Shop.receiveCoins(dt)

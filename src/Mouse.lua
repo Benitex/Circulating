@@ -26,6 +26,16 @@ function Mouse.update()
         Mouse.x = love.mouse.getX()
         Mouse.y = love.mouse.getY()
     end
+
+    if gameState == 'play' then
+        if Shop.coinsPickedOnHover then
+            for coinNumber, coin in ipairs(Shop.coinsList) do
+                if coin:clicked() then
+                    table.remove(Shop.coinsList, coinNumber)
+                end
+            end
+        end
+    end
 end
 
 return Mouse

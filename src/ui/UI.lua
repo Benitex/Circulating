@@ -52,10 +52,7 @@ function UI.load()
         },
 
         shop = {
-            Button:new(function()
-                File.save()
-                gameState = 'menu'
-            end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 3),
+            Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 3),
         },
 
         settings = { }
@@ -111,7 +108,7 @@ function UI.drawTexts()
     elseif gameState == 'shop' then
         for elementNumber, element in ipairs(Shop.elementsList) do
             local x, y
-            x = 21 * 12*Window.screenHeightScale
+            x = 22 * 12*Window.screenWidthScale
             y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
             love.graphics.print(element.text, x, y, 0, 4*Window.screenWidthScale, 4*Window.screenHeightScale)
 
@@ -121,7 +118,11 @@ function UI.drawTexts()
                 x = (103 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
             end
             y = (10 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
-            love.graphics.print(element.price, x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+            if element.level == element.maxLevel then
+                love.graphics.print('-', x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+            else
+                love.graphics.print(element.price, x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+            end
         end
     end
 end
