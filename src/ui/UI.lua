@@ -3,7 +3,7 @@
 --------------
 
 local Button = require 'src/ui/Button'
-local Ball = require 'src/Ball'
+local Circle = require 'src/Circle'
 local Window = require 'src/ui/Window'
 
 local UI = {
@@ -22,8 +22,8 @@ function UI.load()
             Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
-                for tempo = 1, Shop.numberOfBalls, 1 do
-                    table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+                for tempo = 1, Shop.numberOfCircles, 1 do
+                    table.insert(Shop.circleList, Circle:new(Shop.circleRandomInitialPosition))
                 end
             end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5)
         },
@@ -45,8 +45,8 @@ function UI.load()
             Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
-                for tempo = 1, Shop.numberOfBalls, 1 do
-                    table.insert(Shop.ballList, Ball:new(Shop.ballRandomInitialPosition))
+                for tempo = 1, Shop.numberOfCircles, 1 do
+                    table.insert(Shop.circleList, Circle:new(Shop.circleRandomInitialPosition))
                 end
             end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5)
         },
@@ -62,10 +62,10 @@ function UI.load()
 end
 
 function UI.loadShopButtons()
-    for elementNumber, element in ipairs(Shop.getElements()) do
-        local x = (128 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
-        local y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
-        table.insert(UI.buttons.shop, Button:new(element:upgrade(), 'Plus_Icon', x, y, 12))
+    for itemNumber, item in ipairs(Shop.getItems()) do
+        local x = (128 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
+        local y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
+        table.insert(UI.buttons.shop, Button:new(item:upgrade(), 'Plus_Icon', x, y, 12))
     end
 end
 
@@ -106,22 +106,22 @@ function UI.drawTexts()
         love.graphics.print("Game Over", Window.width/2 - 36*7*Window.screenWidthScale, Window.height/2 - 12*7*Window.screenHeightScale - 100, 0, 7*Window.screenWidthScale, 7*Window.screenHeightScale)
 
     elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
-        for elementNumber, element in ipairs(Shop.getElements()) do
+        for itemNumber, item in ipairs(Shop.getItems()) do
             local x, y
             x = 22 * 12*Window.screenWidthScale
-            y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
-            love.graphics.print(element.text, x, y, 0, 4*Window.screenWidthScale, 4*Window.screenHeightScale)
+            y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
+            love.graphics.print(item.text, x, y, 0, 4*Window.screenWidthScale, 4*Window.screenHeightScale)
 
-            if element.price < 100 then
-                x = (106 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
+            if item.price < 100 then
+                x = (106 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
             else
-                x = (103 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
+                x = (103 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
             end
-            y = (10 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
-            if element.level == element.maxLevel then
+            y = (10 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
+            if item.level == item.maxLevel then
                 love.graphics.print('-', x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
             else
-                love.graphics.print(element.price, x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+                love.graphics.print(item.price, x, y, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
             end
         end
     end

@@ -2,7 +2,7 @@
 -- Shop class --
 ----------------
 
-ShopElement = require 'src/shop/ShopElement'
+ShopItem = require 'src/shop/ShopItem'
 local Coin = require 'src/Coin'
 
 local Shop = {
@@ -10,80 +10,80 @@ local Shop = {
     money = 0, totalMoney = 0, moneyCooldown = 0,
 
     -- Lists
-    ballList = {}, coinsList = {}, elementsList = {},
+    circleList = {}, coinsList = {}, itemsList = {},
 
-    -- Coins elements
+    -- Coins items
     coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
 
-    -- Ball elements
-    ballRandomInitialPosition = false, numberOfBalls = 1
+    -- Circle items
+    circleRandomInitialPosition = false, numberOfCircles = 1
 }
 
 function Shop.load()
     if playingOnMobile then
         Shop.coinsPickedOnHover = true
     else
-        if #Shop.elementsList == 0 then
-            table.insert(Shop.elementsList, ShopElement:new('coinsSpawnTime', 1))
-            table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition', 1))
+        if #Shop.itemsList == 0 then
+            table.insert(Shop.itemsList, ShopItem:new('coinsSpawnTime', 1))
+            table.insert(Shop.itemsList, ShopItem:new('circleInitialPosition', 1))
         end
     end
     gameState = 'shop - cold'
     UI.loadShopButtons()
 end
 
-function Shop.getElements()
-    local filteredElements = {}
+function Shop.getItems()
+    local filteredItems = {}
 
     if gameState == 'shop - cold' then
-        for tempo, element in ipairs(Shop.elementsList) do
-            if element.temperature < 0 then
-                table.insert(filteredElements, element)
+        for tempo, item in ipairs(Shop.itemsList) do
+            if item.temperature < 0 then
+                table.insert(filteredItems, item)
             end
         end
     elseif gameState == 'shop - hot' then
-        for tempo, element in ipairs(Shop.elementsList) do
-            if element.temperature > 0 then
-                table.insert(filteredElements, element)
+        for tempo, item in ipairs(Shop.itemsList) do
+            if item.temperature > 0 then
+                table.insert(filteredItems, item)
             end
         end
     end
 
-    return filteredElements
+    return filteredItems
 end
 
 function Shop.update()
     local newShop = {}
 
-    -- Insert elements upgrades
-    for tempo, element in ipairs(Shop.elementsList) do
-        table.insert(newShop, ShopElement:new(element.type, element.level))
+    -- Insert items upgrades
+    for tempo, item in ipairs(Shop.itemsList) do
+        table.insert(newShop, ShopItem:new(item.type, item.level))
     end
-    Shop.elementsList = newShop
+    Shop.itemsList = newShop
 
-    -- Insert unlockable elements
-    for tempo, element in ipairs(newShop) do
-        if element.type == 'coinsSpawnTime' and element.level > 1 then
-            Shop.addElement('coinsPickedOnHover')
+    -- Insert unlockable items
+    for tempo, item in ipairs(newShop) do
+        if item.type == 'coinsSpawnTime' and item.level > 1 then
+            Shop.addItem('coinsPickedOnHover')
         end
     end
 
     File.save()
 end
 
-function Shop.addElement(type)
+function Shop.addItem(type)
     local alreadyExists = false
-    for tempo, element in ipairs(Shop.elementsList) do
-        if element.type == type then
+    for tempo, item in ipairs(Shop.itemsList) do
+        if item.type == type then
             alreadyExists = true
         end
     end
     if not alreadyExists then
-        table.insert(Shop.elementsList, ShopElement:new(type, 1))
+        table.insert(Shop.itemsList, ShopItem:new(type, 1))
     end
 end
 
-function Shop.receiveCoins(dt)
+function Shop.receiveMoney(dt)
     Shop.moneyCooldown = Shop.moneyCooldown + dt + (-Shop.temperature * 0.1)
     if Shop.moneyCooldown >= 1 then
         Shop.money = Shop.money + 1

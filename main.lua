@@ -35,8 +35,8 @@ function love.draw()
             for tempo, coin in ipairs(Shop.coinsList) do
                 love.graphics.draw(coin.sprite, coin.x, coin.y, 0, coin.scale, coin.scale)
             end
-            for tempo, ball in ipairs(Shop.ballList) do
-                love.graphics.circle('fill', ball.x, ball.y, ball.size)
+            for tempo, circle in ipairs(Shop.circleList) do
+                love.graphics.circle('fill', circle.x, circle.y, circle.size)
             end
         end
     end
@@ -51,12 +51,12 @@ function love.update(dt)
     if gameState == 'play' then
         countdown = countdown - dt
         if countdown < 0 then
-            Shop.receiveCoins(dt)
+            Shop.receiveMoney(dt)
             Shop.spawnCoins(dt)
-            for tempo, ball in ipairs(Shop.ballList) do
-                ball:move(dt)
-                if ball:touchedByMouse() then
-                    Shop.ballList = {}
+            for tempo, circle in ipairs(Shop.circleList) do
+                circle:move(dt)
+                if circle:touchedByMouse() then
+                    Shop.circleList = {}
                     Shop.coinsList = {}
                     Sounds.defeatSE:play()
                     gameState = 'game over'

@@ -14,7 +14,7 @@ function Window.load()
     Window.width = love.graphics.getWidth()
     Window.height = love.graphics.getHeight()
 
-    Window.screenWidthScale = Window.width/1920 -- This is used to scale UI elements according to the device screen
+    Window.screenWidthScale = Window.width/1920 -- This is used to scale UI items according to the device screen
     Window.screenHeightScale = Window.height/1080
 end
 

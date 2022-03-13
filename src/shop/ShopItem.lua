@@ -1,11 +1,11 @@
 -------------------------
--- Shop Elements class --
+-- Shop Items class --
 -------------------------
 
-local ShopElement = {
+local ShopItem = {
     type = '', price = 0, level = 1, maxLevel = 2, priceMultiplier = 1.5, temperature = 0, text = ''
 }
-ShopElement.__index = ShopElement
+ShopItem.__index = ShopItem
 
 --[[
     Colder
@@ -18,12 +18,12 @@ ShopElement.__index = ShopElement
     Hotter
 
     mouse size
-    random ball initial position
-    number of balls
+    random circle initial position
+    number of circles
 
 --]]
 
-function ShopElement:new(type, level)
+function ShopItem:new(type, level)
     self = setmetatable({}, self)
 
     self.type = type
@@ -52,14 +52,14 @@ function ShopElement:new(type, level)
         if self.level > 1 then
             Shop.coinSpawnTime = 7 - self.level
         end
-    elseif self.type == 'ballInitialPosition' then
+    elseif self.type == 'circleInitialPosition' then
         self.text = 'Random Circle Position\nThe circle starts at a random\nposition.'
         self.price = 100
         self.maxLevel = 2
         self.temperature = 1
 
         if self.level > 1 then
-            Shop.ballRandomInitialPosition = true
+            Shop.circleRandomInitialPosition = true
         end
     end
 
@@ -70,7 +70,7 @@ function ShopElement:new(type, level)
     return self
 end
 
-function ShopElement:upgrade()
+function ShopItem:upgrade()
     return function ()
         if self.level < self.maxLevel then
             if Shop.totalMoney >= self.price then
@@ -83,4 +83,4 @@ function ShopElement:upgrade()
     end
 end
 
-return ShopElement
+return ShopItem

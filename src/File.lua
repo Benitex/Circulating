@@ -7,7 +7,7 @@ local File = {}
 function File.save()
     if love.filesystem.getInfo('save.sav') ~= nil then
         local moneyBackup, type, level
-        local elementsBackup = {}
+        local itemsBackup = {}
 
         local lineNumber = 1
         for line in love.filesystem.lines('save.sav') do
@@ -18,21 +18,21 @@ function File.save()
                     type = line
                 else
                     level = tonumber(line)
-                    table.insert(elementsBackup, ShopElement:new(type, level))
+                    table.insert(itemsBackup, ShopItem:new(type, level))
                 end
             end
             lineNumber = lineNumber + 1
         end
 
         love.filesystem.write("save_backup.sav", moneyBackup..'\n')
-        for tempo, element in ipairs(elementsBackup) do
-            love.filesystem.append("save_backup.sav", element.type..'\n'..element.level..'\n')
+        for tempo, item in ipairs(itemsBackup) do
+            love.filesystem.append("save_backup.sav", item.type..'\n'..item.level..'\n')
         end
     end
 
     love.filesystem.write("save.sav", Shop.totalMoney..'\n')
-    for tempo, element in ipairs(Shop.elementsList) do
-        love.filesystem.append('save.sav', element.type..'\n'..element.level..'\n')
+    for tempo, item in ipairs(Shop.itemsList) do
+        love.filesystem.append('save.sav', item.type..'\n'..item.level..'\n')
     end
 end
 
@@ -48,7 +48,7 @@ function File.load()
                     type = line
                 else
                     level = tonumber(line)
-                    table.insert(Shop.elementsList, ShopElement:new(type, level))
+                    table.insert(Shop.itemsList, ShopItem:new(type, level))
                 end
             end
             lineNumber = lineNumber + 1
