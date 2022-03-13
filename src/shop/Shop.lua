@@ -28,8 +28,28 @@ function Shop.load()
             table.insert(Shop.elementsList, ShopElement:new('ballInitialPosition', 1))
         end
     end
+    gameState = 'shop - cold'
     UI.loadShopButtons()
-    gameState = 'shop'
+end
+
+function Shop.getElements()
+    local filteredElements = {}
+
+    if gameState == 'shop - cold' then
+        for tempo, element in ipairs(Shop.elementsList) do
+            if element.temperature < 0 then
+                table.insert(filteredElements, element)
+            end
+        end
+    elseif gameState == 'shop - hot' then
+        for tempo, element in ipairs(Shop.elementsList) do
+            if element.temperature > 0 then
+                table.insert(filteredElements, element)
+            end
+        end
+    end
+
+    return filteredElements
 end
 
 function Shop.update()

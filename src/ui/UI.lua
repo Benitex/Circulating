@@ -16,7 +16,7 @@ function UI.load()
     Window.load()
 
     love.mouse.setVisible(false)
-    -- Buttons and icons
+
     UI.buttons = {
         menu = {
             Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
@@ -62,10 +62,10 @@ function UI.load()
 end
 
 function UI.loadShopButtons()
-    for elementNumber, shopElement in ipairs(Shop.elementsList) do
+    for elementNumber, element in ipairs(Shop.getElements()) do
         local x = (128 + math.floor((elementNumber+1)/2)) * 12*Window.screenWidthScale
         local y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
-        table.insert(UI.buttons.shop, Button:new(shopElement:upgrade(), 'Plus_Icon', x, y, 12))
+        table.insert(UI.buttons.shop, Button:new(element:upgrade(), 'Plus_Icon', x, y, 12))
     end
 end
 
@@ -81,7 +81,7 @@ function UI.getList()
         list = UI.buttons.gameOver
     elseif gameState == 'settings' then
         list = UI.buttons.settings
-    elseif gameState == 'shop' then
+    elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
         list = UI.buttons.shop
     end
     return list
@@ -105,8 +105,8 @@ function UI.drawTexts()
     elseif gameState == 'game over' then
         love.graphics.print("Game Over", Window.width/2 - 36*7*Window.screenWidthScale, Window.height/2 - 12*7*Window.screenHeightScale - 100, 0, 7*Window.screenWidthScale, 7*Window.screenHeightScale)
 
-    elseif gameState == 'shop' then
-        for elementNumber, element in ipairs(Shop.elementsList) do
+    elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
+        for elementNumber, element in ipairs(Shop.getElements()) do
             local x, y
             x = 22 * 12*Window.screenWidthScale
             y = (9 + ((9 + 5) * elementNumber)) * 12*Window.screenHeightScale
@@ -137,7 +137,7 @@ function UI.drawBackgrounds()
     end
     love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
 
-    if gameState == 'shop' then
+    if gameState == 'shop - cold' or gameState == 'shop - hot' then
         love.graphics.draw(UI.backgrounds.shop, 0, 0, 0, Window.width/160, Window.height/90)
     end
 end

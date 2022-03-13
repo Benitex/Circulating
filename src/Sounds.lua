@@ -19,7 +19,7 @@ function Sounds.play()
             if countdown < 0 then
                 Sounds.BGM:play()
             end
-        elseif gameState == 'menu' or gameState == 'shop' then
+        elseif gameState == 'menu' or gameState == 'shop - cold' or gameState == 'shop - hot' then
             Sounds.BGM:play()
         else
             Sounds.BGM:stop()
