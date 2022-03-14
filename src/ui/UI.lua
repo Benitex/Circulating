@@ -38,7 +38,7 @@ function UI.load()
             Button:new(function() end, 'MaxCoin_Icon', 10, 10, 5),
             Button:new(function() end, 'Coin_Icon', 10, 100, 5),
             Button:new(function() gameState = 'play' end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
-            Button:new(function() gameState = 'play' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 3)
+            Button:new(function() gameState = 'play' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 6)
         },
 
         gameOver = {
@@ -52,7 +52,13 @@ function UI.load()
         },
 
         shop = {
-            Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 3),
+            Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 6),
+            Button:new(function()
+                gameState = 'shop - cold'
+            end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12),
+            Button:new(function()
+                gameState = 'shop - hot'
+            end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12),
         },
 
         settings = { }
@@ -106,6 +112,8 @@ function UI.drawTexts()
         love.graphics.print("Game Over", Window.width/2 - 36*7*Window.screenWidthScale, Window.height/2 - 12*7*Window.screenHeightScale - 100, 0, 7*Window.screenWidthScale, 7*Window.screenHeightScale)
 
     elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
+        love.graphics.print(Shop.totalMoney, 105 * 12*Window.screenWidthScale, 3 * 12*Window.screenHeightScale, 0, 8*Window.screenWidthScale, 8*Window.screenHeightScale)
+
         for itemNumber, item in ipairs(Shop.getItems()) do
             local x, y
             x = 22 * 12*Window.screenWidthScale
