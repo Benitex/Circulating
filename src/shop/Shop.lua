@@ -28,24 +28,24 @@ function Shop.load()
             table.insert(Shop.itemsList, ShopItem:new('circleInitialPosition', 1))
         end
     end
-    gameState = 'shop - cold'
-    UI.loadShopButtons()
+    UI.loadShop()
+end
+
+function Shop.setTemperature()
+    for tempo, item in ipairs(Shop.itemsList) do
+        if item.level > 1 then
+            Shop.temperature = Shop.temperature + item.temperature * (item.level-1)
+        end
+    end
 end
 
 function Shop.getItems()
     local filteredItems = {}
 
-    if gameState == 'shop - cold' then
-        for tempo, item in ipairs(Shop.itemsList) do
-            if item.temperature < 0 then
-                table.insert(filteredItems, item)
-            end
-        end
-    elseif gameState == 'shop - hot' then
-        for tempo, item in ipairs(Shop.itemsList) do
-            if item.temperature > 0 then
-                table.insert(filteredItems, item)
-            end
+    for tempo, item in ipairs(Shop.itemsList) do
+        if gameState == 'shop - cold' and item.temperature < 0
+        or gameState == 'shop - hot' and item.temperature > 0 then
+            table.insert(filteredItems, item)
         end
     end
 
@@ -68,6 +68,8 @@ function Shop.update()
         end
     end
 
+    Shop.setTemperature()
+
     File.save()
 end
 
@@ -84,7 +86,7 @@ function Shop.addItem(type)
 end
 
 function Shop.receiveMoney(dt)
-    Shop.moneyCooldown = Shop.moneyCooldown + dt + (-Shop.temperature * 0.1)
+    Shop.moneyCooldown = Shop.moneyCooldown + dt + (Shop.temperature * 0.005)
     if Shop.moneyCooldown >= 1 then
         Shop.money = Shop.money + 1
         Shop.totalMoney = Shop.totalMoney + 1

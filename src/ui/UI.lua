@@ -19,7 +19,10 @@ function UI.load()
 
     UI.buttons = {
         menu = {
-            Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function()
+                gameState = 'shop - cold'
+                Shop.load()
+            end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
                 for tempo = 1, Shop.numberOfCircles, 1 do
@@ -42,7 +45,10 @@ function UI.load()
         },
 
         gameOver = {
-            Button:new(function() Shop.load() end, 'Shop_Icon', 20, 20, 3),
+            Button:new(function()
+                gameState = 'shop - cold'
+                Shop.load()
+            end, 'Shop_Icon', 20, 20, 3),
             Button:new(function()
                 gameState = 'play'
                 for tempo = 1, Shop.numberOfCircles, 1 do
@@ -51,15 +57,7 @@ function UI.load()
             end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5)
         },
 
-        shop = {
-            Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 6),
-            Button:new(function()
-                gameState = 'shop - cold'
-            end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12),
-            Button:new(function()
-                gameState = 'shop - hot'
-            end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12),
-        },
+        shop = {},
 
         settings = { }
     }
@@ -67,12 +65,26 @@ function UI.load()
     UI.backgrounds.shop:setFilter('nearest', 'nearest')
 end
 
-function UI.loadShopButtons()
+function UI.loadShop()
+    UI.buttons.shop = {}
+    UI.loadShopFixedButtons()
     for itemNumber, item in ipairs(Shop.getItems()) do
         local x = (128 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
         local y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
         table.insert(UI.buttons.shop, Button:new(item:upgrade(), 'Plus_Icon', x, y, 12))
     end
+end
+
+function UI.loadShopFixedButtons()
+    table.insert(UI.buttons.shop, Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 50, 30, 6))
+    table.insert(UI.buttons.shop, Button:new(function()
+        gameState = 'shop - cold'
+        UI.loadShop()
+    end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12))
+    table.insert(UI.buttons.shop, Button:new(function()
+        gameState = 'shop - hot'
+        UI.loadShop()
+    end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12))
 end
 
 function UI.getList()
@@ -94,8 +106,7 @@ function UI.getList()
 end
 
 function UI.drawButtons()
-    local list = UI.getList()
-    for tempo, button in ipairs(list) do
+    for tempo, button in ipairs( UI.getList() ) do
         love.graphics.draw(button.sprite, button.x, button.y, 0, button.scale, button.scale)
     end
 end
@@ -136,13 +147,20 @@ function UI.drawTexts()
 end
 
 function UI.drawBackgrounds()
-    if Shop.temperature > 0 then
-        love.graphics.setColor(1, 1 - (0.3 * Shop.temperature), 0)
-    elseif Shop.temperature < 0 then
-        love.graphics.setColor(0, 1 - (0.1 * -Shop.temperature), 1)
-    else
-        love.graphics.setColor(1, 1, 1)
+    -- Set color according to the temperature
+    local red, green, blue
+    red = 255
+    green = 255
+    blue = 255
+    if Shop.temperature < 0 then
+        red = red - (-Shop.temperature) * 25
+        green = green - (-Shop.temperature) * 10
+    elseif Shop.temperature > 0 then
+        green = green - Shop.temperature * 20
+        blue = green - 20
     end
+    love.graphics.setColor(red/255, green/255, blue/255)
+
     love.graphics.setBackgroundColor(0/255, 11/255, 13/255)
 
     if gameState == 'shop - cold' or gameState == 'shop - hot' then

@@ -30,6 +30,7 @@ function ShopItem:new(type, level)
     self.level = level
     self.priceMultiplier = 1.5
 
+    -- Cold Items
     if self.type == 'coinsPickedOnHover' then
         self.text = 'Coins picked on hover\nCoins can be picked without\nthe need to click on them.'
         self.price = 100
@@ -52,6 +53,8 @@ function ShopItem:new(type, level)
         if self.level > 1 then
             Shop.coinSpawnTime = 7 - self.level
         end
+
+    -- Hot Items
     elseif self.type == 'circleInitialPosition' then
         self.text = 'Random Circle Position\nThe circle starts at a random\nposition.'
         self.price = 100
@@ -76,7 +79,6 @@ function ShopItem:upgrade()
             if Shop.totalMoney >= self.price then
                 self.level = self.level + 1
                 Shop.totalMoney = Shop.totalMoney - self.price
-                --Shop.temperature = Shop.temperature + self.temperature TODO
                 Shop.update()
             end
         end

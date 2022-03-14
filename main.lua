@@ -25,6 +25,7 @@ function love.load()
     love.graphics.setFont(font)
 
     File.load()
+    Shop.setTemperature()
     UI.load()
 end
 
