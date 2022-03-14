@@ -19,16 +19,41 @@ local Shop = {
     circleRandomInitialPosition = false, numberOfCircles = 1
 }
 
-function Shop.load()
-    if playingOnMobile then
-        Shop.coinsPickedOnHover = true
-    else
-        if #Shop.itemsList == 0 then
-            table.insert(Shop.itemsList, ShopItem:new('coinsSpawnTime', 1))
-            table.insert(Shop.itemsList, ShopItem:new('circleInitialPosition', 1))
+function Shop.update()
+    local newShop = {}
+
+    -- Insert items upgrades
+    for tempo, item in ipairs(Shop.itemsList) do
+        table.insert(newShop, ShopItem:new(item.type, item.level))
+    end
+    Shop.itemsList = newShop
+
+    -- Insert unlockable items
+    for tempo, item in ipairs(newShop) do
+        if item.type == 'coinsSpawnTime' and item.level > 1 then
+            if playingOnMobile then
+                Shop.addItem('coinsPickedOnHover', 2)
+            else
+                Shop.addItem('coinsPickedOnHover', 1)
+            end
         end
     end
-    UI.loadShop()
+
+    Shop.setTemperature()
+
+    File.save()
+end
+
+function Shop.addItem(type, level)
+    local alreadyExists = false
+    for tempo, item in ipairs(Shop.itemsList) do
+        if item.type == type then
+            alreadyExists = true
+        end
+    end
+    if not alreadyExists then
+        table.insert(Shop.itemsList, ShopItem:new(type, level))
+    end
 end
 
 function Shop.setTemperature()
@@ -52,41 +77,8 @@ function Shop.getItems()
     return filteredItems
 end
 
-function Shop.update()
-    local newShop = {}
-
-    -- Insert items upgrades
-    for tempo, item in ipairs(Shop.itemsList) do
-        table.insert(newShop, ShopItem:new(item.type, item.level))
-    end
-    Shop.itemsList = newShop
-
-    -- Insert unlockable items
-    for tempo, item in ipairs(newShop) do
-        if item.type == 'coinsSpawnTime' and item.level > 1 then
-            Shop.addItem('coinsPickedOnHover')
-        end
-    end
-
-    Shop.setTemperature()
-
-    File.save()
-end
-
-function Shop.addItem(type)
-    local alreadyExists = false
-    for tempo, item in ipairs(Shop.itemsList) do
-        if item.type == type then
-            alreadyExists = true
-        end
-    end
-    if not alreadyExists then
-        table.insert(Shop.itemsList, ShopItem:new(type, 1))
-    end
-end
-
 function Shop.receiveMoney(dt)
-    Shop.moneyCooldown = Shop.moneyCooldown + dt + (Shop.temperature * 0.005)
+    Shop.moneyCooldown = Shop.moneyCooldown + dt + (Shop.temperature * 0.001)
     if Shop.moneyCooldown >= 1 then
         Shop.money = Shop.money + 1
         Shop.totalMoney = Shop.totalMoney + 1

@@ -8,6 +8,7 @@ local Mouse = require 'src/Mouse'
 File = require 'src/File'
 UI = require 'src/ui/UI'
 Shop = require 'src/shop/Shop'
+Window = require 'src/ui/Window'
 
 function love.load()
     gameState = 'menu'

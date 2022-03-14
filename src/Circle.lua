@@ -3,11 +3,10 @@
 ----------------
 
 local Mouse = require 'src/Mouse'
-local Window = require 'src/ui/Window'
 
 local Circle = {
-    x = Window.width/2,
-    y = Window.height/2,
+    x = love.graphics.getWidth()/2,
+    y = love.graphics.getHeight()/2,
     speed = 7*30,
     size = 15
 }
@@ -25,7 +24,7 @@ function Circle:new(randomPosition)
     end
 
     self.speed = 7*30
-    self.size = 15
+    self.size = 15 * Window.screenWidthScale
 
     return self
 end
