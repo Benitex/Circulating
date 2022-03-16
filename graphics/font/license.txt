@@ -3,7 +3,7 @@
 This software end user license agreement (hereinafter “Agreement”) is made
 between you or, if you represent a legal entity, that legal entity (hereinafter
 “You”) and “Benitex”, the copyright holder and designer (hereinafter
-“Font Designer”) of the font software named “Daire font” (hereinafter
+“Font Designer”) of the font software named “Circulating font” (hereinafter
 “Font Software”).
 
 1. BINDING AGREEMENT
@@ -71,7 +71,7 @@ means You are utilizing for Your Work, an attribution notice (hereinafter “The
 Attribution Notice”) comprising of:
 
 the name of the Font Designer or pseudonym, if applicable (“Benitex”);
-the title of the Font Software (“Daire font”); and
+the title of the Font Software (“Circulating font”); and
 to the extent reasonably practicable, the URI
 (https://fontstruct.com/fontstructions/show/2086638) from where the Font was
 originally downloaded.

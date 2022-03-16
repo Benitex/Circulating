@@ -7,7 +7,7 @@ local Coin = require 'src/Coin'
 
 local Shop = {
     temperature = 0,
-    money = 0, totalMoney = 0, moneyCooldown = 0,
+    money = 0, totalMoney = 0,
 
     -- Lists
     circleList = {}, coinsList = {}, itemsList = {},
@@ -16,7 +16,10 @@ local Shop = {
     coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
 
     -- Circle items
-    circleRandomInitialPosition = false, numberOfCircles = 1
+    circleRandomInitialPosition = false, numberOfCircles = 1,
+
+    -- other items
+    mouseSize = 5
 }
 
 function Shop.update()
@@ -78,22 +81,23 @@ function Shop.getItems()
     return filteredItems
 end
 
+local moneyCooldown = 0
 function Shop.receiveMoney(dt)
-    Shop.moneyCooldown = Shop.moneyCooldown + dt + (Shop.temperature * 0.001)
-    if Shop.moneyCooldown >= 1 then
+    moneyCooldown = moneyCooldown + dt + (Shop.temperature * 0.001)
+    if moneyCooldown >= 1 then
         Shop.money = Shop.money + 1
         Shop.totalMoney = Shop.totalMoney + 1
-        Shop.moneyCooldown = 0
+        moneyCooldown = 0
     end
 end
 
-Shop.coinsTempo = 0
+local coinsTempo = 0
 function Shop.spawnCoins(dt)
     if Shop.coinSpawnTime > 0 then
-        Shop.coinsTempo = Shop.coinsTempo + dt
-        if Shop.coinsTempo >= Shop.coinSpawnTime then
+        coinsTempo = coinsTempo + dt
+        if coinsTempo >= Shop.coinSpawnTime then
             table.insert(Shop.coinsList, Coin:new(Shop.coinScale))
-            Shop.coinsTempo = 0
+            coinsTempo = 0
         end
     end
 end

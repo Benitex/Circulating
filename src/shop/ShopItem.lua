@@ -20,6 +20,7 @@ ShopItem.__index = ShopItem
     mouse size
     random circle initial position
     number of circles
+    walking coins
 
 --]]
 
@@ -32,19 +33,19 @@ function ShopItem:new(type, level)
 
     -- Cold Items
     if self.type == 'coinsPickedOnHover' then
-        self.text = 'Coins picked on hover:\nCoins can be picked without the need to click\non them.'
+        self.text = 'Coins sucker:\nCoins can be picked without the need to click\non them.'
         self.price = 100
         self.maxLevel = 2
-        self.temperature = -1
+        self.temperature = -2
 
         if self.level == 2 then
             Shop.coinsPickedOnHover = true
         end
     elseif self.type == 'coinsSpawnTime' then
         if self.level == 1 then
-            self.text = 'Coins:\nClick on coins to increase your money.'
+            self.text = 'Courage Coins:\nClick on coins to increase your money.'
         else
-            self.text = 'Coins Time:\nCoins spawn in more frequently.'
+            self.text = 'Coins sped up:\nCoins spawn in more frequently.'
         end
         self.price = 20
         self.maxLevel = 6
@@ -56,13 +57,22 @@ function ShopItem:new(type, level)
 
     -- Hot Items
     elseif self.type == 'circleInitialPosition' then
-        self.text = 'Random Circle Position:\nThe circle starts at a random position.'
-        self.price = 100
+        self.text = 'Circulating Circle Position:\nThe circle starts at a random position.'
+        self.price = 20
         self.maxLevel = 2
         self.temperature = 1
 
         if self.level > 1 then
             Shop.circleRandomInitialPosition = true
+        end
+    elseif self.type == 'mouseSize' then
+        self.text = 'The big boy mouse:\nMouse icon is bigger.'
+        self.price = 40
+        self.maxLevel = 5
+        self.temperature = 2
+
+        if self.level > 1 then
+            Shop.mouseSize = self.level
         end
     end
 

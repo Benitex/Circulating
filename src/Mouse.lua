@@ -11,6 +11,11 @@ local Mouse = {
     }
 }
 
+function Mouse.load()
+    Mouse.scale = Shop.mouseSize*Window.screenWidthScale
+    Mouse.size = Mouse.size * Mouse.scale
+end
+
 function Mouse.draw()
     if gameState == 'play' then
         love.graphics.draw(Mouse.sprites.player, Mouse.x - Mouse.size*Mouse.scale/2, Mouse.y - Mouse.size*Mouse.scale/2, 0, Mouse.scale, Mouse.scale)

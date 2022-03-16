@@ -11,7 +11,7 @@ local UI = {
     },
 
     font = {
-        sprites = love.graphics.newFont('graphics/font/daire-font.ttf'),
+        sprites = love.graphics.newFont('graphics/font/circulating-font.ttf'),
         width = 4, height = 6
     }
 }
@@ -162,6 +162,7 @@ function UI.loadShopButtons()
     -- First shop load
     Shop.addItem('coinsSpawnTime', 1)
     Shop.addItem('circleInitialPosition', 1)
+    --Shop.addItem('mouseSize', 1)
 
     -- Fixed buttons
     UI.buttons.shop = {

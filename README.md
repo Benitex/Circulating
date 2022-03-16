@@ -1,6 +1,6 @@
-# Daire
+# Circulating
 
-Daire is a simple game currently in development, made using Lua and Love2d. Available on desktop and mobile devices.
+Circulating is a simple game currently in development, made using Lua and Love2d. Available on desktop and mobile devices.
 
 ## Game description
 
@@ -16,4 +16,4 @@ All the code, graphics, and music were made by me. Graphics were made with [Asep
 
 ## Screenshots
 
-![Daire Screenshot](https://user-images.githubusercontent.com/64505839/157769835-8f11ae6f-042a-4e00-be0c-43889d3e207c.png)
+![Circulating Screenshot](https://user-images.githubusercontent.com/64505839/157769835-8f11ae6f-042a-4e00-be0c-43889d3e207c.png)
