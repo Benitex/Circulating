@@ -107,8 +107,8 @@ function UI.drawButtons()
 end
 
 function UI.print(text, x, y, scale)
-    x = x * Window.screenWidthScale * 12 * Window.screenWidthScale
-    y = y * Window.screenHeightScale * 12 * Window.screenHeightScale
+    x = x * 12 * Window.screenWidthScale
+    y = y * 12 * Window.screenHeightScale
 
     local widthScale = scale * Window.screenWidthScale
     local heightScale = scale * Window.screenHeightScale
@@ -117,9 +117,6 @@ function UI.print(text, x, y, scale)
 end
 
 function UI.drawTexts()
-    local wc = Window.screenWidthScale
-    local hc = Window.screenHeightScale
-
     if gameState == 'play' then
         if math.ceil(countdown) > 0 then
             UI.print( math.ceil(countdown) , 80 - UI.font.width/2, 45 - UI.font.height, 5)
@@ -128,7 +125,7 @@ function UI.drawTexts()
         UI.print(Shop.money, 10, 8, 3)
 
     elseif gameState == 'game over' then
-        UI.print("Game Over", 80 - (UI.font.width * 9)/2, 45 - 4 * UI.font.height, 5)
+        UI.print("Game Over", 80 - (UI.font.width * 11)/2, 45 - 4 * UI.font.height, 5)
 
     elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
         if gameState == 'shop - cold' then
@@ -189,10 +186,7 @@ end
 
 function UI.drawBackgrounds()
     -- Set color according to the temperature
-    local red, green, blue
-    red = 255
-    green = 255
-    blue = 255
+    local red, green, blue = 255, 255, 255
     if Shop.temperature < 0 then
         red = red - (-Shop.temperature) * 25
         green = green - (-Shop.temperature) * 10

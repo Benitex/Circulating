@@ -66,11 +66,6 @@ function love.update(dt)
     end
 end
 
-function areCirclesTouching(x1, y1, size1, x2, y2, size2)
-    local distance = math.sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
-    return distance < size1 + size2
-end
-
 -- Desktop controls
 
 function love.mousepressed(x, y)

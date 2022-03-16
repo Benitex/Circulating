@@ -40,6 +40,7 @@ function Shop.update()
     end
 
     Shop.setTemperature()
+    UI.loadShopButtons()
 
     File.save()
 end

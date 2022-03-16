@@ -23,7 +23,7 @@ function Circle:new(randomPosition)
         self.y = Window.height/2
     end
 
-    self.speed = 7*30
+    self.speed = 7*30*Window.screenWidthScale
     self.size = 15 * Window.screenWidthScale
 
     return self
@@ -41,12 +41,13 @@ function Circle:move(dt)
         self.y = self.y - self.speed * dt
     end
 
-    self.speed = self.speed + dt*30
-    self.size = self.size + dt*5
+    self.speed = self.speed + 30*dt*Window.screenWidthScale
+    self.size = self.size + 5*dt*Window.screenWidthScale
 end
 
 function Circle:touchedByMouse()
-    return areCirclesTouching(self.x, self.y, self.size, Mouse.x, Mouse.y, Mouse.size)
+    local distance = math.sqrt( (self.x - Mouse.x)^2 + (self.y - Mouse.y)^2 )
+    return distance < self.size + Mouse.size
 end
 
 return Circle
