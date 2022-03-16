@@ -20,11 +20,6 @@ function love.load()
         playingOnMobile = true
     end
 
-    -- Set font
-    local font = love.graphics.newFont('font/pixelart.ttf')
-    font:setFilter("nearest", "nearest")
-    love.graphics.setFont(font)
-
     File.load()
     Shop.setTemperature()
     UI.load()

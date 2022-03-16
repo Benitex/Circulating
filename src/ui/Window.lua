@@ -5,7 +5,7 @@
 local Settings = require 'src/Settings'
 
 local Window = {
-    width = 1920, height = 1080, screenWidthScale = 1, screenHeightScale = 1
+    width = 160, height = 90, screenWidthScale = 1, screenHeightScale = 1
 }
 
 function Window.load()

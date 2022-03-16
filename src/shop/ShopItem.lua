@@ -32,7 +32,7 @@ function ShopItem:new(type, level)
 
     -- Cold Items
     if self.type == 'coinsPickedOnHover' then
-        self.text = 'Coins picked on hover\nCoins can be picked without\nthe need to click on them.'
+        self.text = 'Coins picked on hover:\nCoins can be picked without the need to click\non them.'
         self.price = 100
         self.maxLevel = 2
         self.temperature = -1
@@ -42,9 +42,9 @@ function ShopItem:new(type, level)
         end
     elseif self.type == 'coinsSpawnTime' then
         if self.level == 1 then
-            self.text = 'Coins\nClick on coins to increase\nyour money.'
+            self.text = 'Coins:\nClick on coins to increase your money.'
         else
-            self.text = 'Coins Time\nCoins spawn in less time'
+            self.text = 'Coins Time:\nCoins spawn in more frequently.'
         end
         self.price = 20
         self.maxLevel = 6
@@ -56,7 +56,7 @@ function ShopItem:new(type, level)
 
     -- Hot Items
     elseif self.type == 'circleInitialPosition' then
-        self.text = 'Random Circle Position\nThe circle starts at a random\nposition.'
+        self.text = 'Random Circle Position:\nThe circle starts at a random position.'
         self.price = 100
         self.maxLevel = 2
         self.temperature = 1

@@ -12,7 +12,7 @@ Items in the store range from mouse and circle attributes to new game elements, 
 
 ## Credits
 
-All the code, graphics, and music were made by me, except the fonts (placeholders), which were made by GerardBouchard.com.
+All the code, graphics, and music were made by me. Graphics were made with [Aseprite](https://www.aseprite.org) and the [font](graphics/font) was made with [Fontstruct](https://fontstruct.com).
 
 ## Screenshots
 

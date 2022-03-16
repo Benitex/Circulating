@@ -8,13 +8,24 @@ local Circle = require 'src/Circle'
 local UI = {
     backgrounds = {
         shop = love.graphics.newImage('graphics/ui/ShopUI.png')
+    },
+
+    font = {
+        sprites = love.graphics.newFont('graphics/font/daire-font.ttf'),
+        width = 4, height = 6
     }
 }
 
 function UI.load()
     Window.load()
 
+    -- Set font
+    local font = UI.font.sprites
+    font:setFilter("nearest", "nearest")
+    love.graphics.setFont(font)
+
     love.mouse.setVisible(false)
+    UI.backgrounds.shop:setFilter('nearest', 'nearest')
 
     UI.buttons = {
         menu = {
@@ -69,36 +80,6 @@ function UI.load()
             love.event.quit()
         end, 'Exit_Icon', Window.width - 32*Window.screenHeightScale * 3*Window.screenWidthScale - 50, 30*Window.screenHeightScale, 6))
     end
-
-    UI.backgrounds.shop:setFilter('nearest', 'nearest')
-end
-
-function UI.loadShopButtons()
-    -- First shop load
-    if #Shop.itemsList == 0 then
-        table.insert(Shop.itemsList, ShopItem:new('coinsSpawnTime', 1))
-        table.insert(Shop.itemsList, ShopItem:new('circleInitialPosition', 1))
-    end
-
-    -- Fixed buttons
-    UI.buttons.shop = {
-        Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*Window.screenHeightScale * 3*Window.screenWidthScale - 50, 30*Window.screenHeightScale, 6),
-        Button:new(function()
-            gameState = 'shop - cold'
-            UI.loadShopButtons()
-        end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12),
-        Button:new(function()
-            gameState = 'shop - hot'
-            UI.loadShopButtons()
-        end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12)
-    }
-
-    -- Shop dependent buttons
-    for itemNumber, item in ipairs(Shop.getItems()) do
-        local x = (128 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
-        local y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
-        table.insert(UI.buttons.shop, Button:new(item:upgrade(), 'Plus_Icon', x, y, 12))
-    end
 end
 
 function UI.getList()
@@ -125,46 +106,84 @@ function UI.drawButtons()
     end
 end
 
+function UI.print(text, x, y, scale)
+    x = x * Window.screenWidthScale * 12 * Window.screenWidthScale
+    y = y * Window.screenHeightScale * 12 * Window.screenHeightScale
+
+    local widthScale = scale * Window.screenWidthScale
+    local heightScale = scale * Window.screenHeightScale
+
+    love.graphics.print(text, x, y, 0, widthScale, heightScale)
+end
+
 function UI.drawTexts()
     local wc = Window.screenWidthScale
     local hc = Window.screenHeightScale
 
     if gameState == 'play' then
         if math.ceil(countdown) > 0 then
-            love.graphics.print(math.ceil(countdown), Window.width/2 - 6*7*wc, Window.height/2 - 6*7*hc, 0, 7*wc, 7*hc)
+            UI.print( math.ceil(countdown) , 80 - UI.font.width/2, 45 - UI.font.height, 5)
         end
-        love.graphics.print(Shop.totalMoney, 110*wc, 20*hc, 0, 5*wc, 5*hc)
-        love.graphics.print(Shop.money, 110*wc, 110*hc, 0, 5*wc, 5*hc)
+        UI.print(Shop.totalMoney, 10, 1, 3)
+        UI.print(Shop.money, 10, 8, 3)
 
     elseif gameState == 'game over' then
-        love.graphics.print("Game Over", Window.width/2 - 36*7*wc, Window.height/2 - 12*7*hc - 100*hc, 0, 7*wc, 7*hc)
+        UI.print("Game Over", 80 - (UI.font.width * 9)/2, 45 - 4 * UI.font.height, 5)
 
     elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
         if gameState == 'shop - cold' then
-            love.graphics.print("Cold Shop", 3 * 12*wc, 3 * 12*hc, 0, 8*wc, 8*hc)
+            UI.print("Cold Shop", 1, 1, 5)
         elseif gameState == 'shop - hot' then
-            love.graphics.print("Hot Shop", 3 * 12*wc, 3 * 12*hc, 0, 8*wc, 8*hc)
+            UI.print("Hot Shop", 1, 1, 5)
         end
-        love.graphics.print(Shop.totalMoney, 94 * 12*wc, 3 * 12*hc, 0, 8*wc, 8*hc)
+        UI.print(Shop.totalMoney, 94, 1, 5)
 
         for itemNumber, item in ipairs(Shop.getItems()) do
-            local x, y
-            x = 22 * 12*wc
-            y = (9 + ((9 + 5) * itemNumber)) * 12*hc
-            love.graphics.print(item.text, x, y, 0, 4*wc, 4*hc)
+            -- Item texts
+            local y = 8 + ((9 + 5) * itemNumber)
+            UI.print(item.text, 22, y, 2)
 
-            if item.price < 100 then
-                x = (106 + math.floor((itemNumber+1)/2)) * 12*wc
-            else
-                x = (103 + math.floor((itemNumber+1)/2)) * 12*wc
-            end
-            y = (10 + ((9 + 5) * itemNumber)) * 12*hc
+            -- Item prices
+            local price, x
             if item.level == item.maxLevel then
-                love.graphics.print('-', x, y, 0, 8*wc, 8*hc)
+                price = "-"
+                x = 110
             else
-                love.graphics.print(item.price, x, y, 0, 8*wc, 8*hc)
+                price = item.price
+                if price < 100 then
+                    x = 108 + math.floor((itemNumber+1)/2)
+                else
+                    x = 104 + math.floor((itemNumber+1)/2)
+                end
             end
+            UI.print(price, x, y, 5)
         end
+    end
+end
+
+function UI.loadShopButtons()
+    -- First shop load
+    Shop.addItem('coinsSpawnTime', 1)
+    Shop.addItem('circleInitialPosition', 1)
+
+    -- Fixed buttons
+    UI.buttons.shop = {
+        Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*Window.screenHeightScale * 3*Window.screenWidthScale - 50, 30*Window.screenHeightScale, 6),
+        Button:new(function()
+            gameState = 'shop - cold'
+            UI.loadShopButtons()
+        end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12),
+        Button:new(function()
+            gameState = 'shop - hot'
+            UI.loadShopButtons()
+        end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12)
+    }
+
+    -- Shop dependent buttons
+    for itemNumber, item in ipairs(Shop.getItems()) do
+        local x = (128 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
+        local y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
+        table.insert(UI.buttons.shop, Button:new(item:upgrade(), 'Plus_Icon', x, y, 12))
     end
 end
 
