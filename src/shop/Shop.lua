@@ -2,7 +2,9 @@
 -- Shop class --
 ----------------
 
-ShopItem = require 'src/shop/ShopItem'
+local File = require 'src/File'
+local UI = require 'src/ui/UI'
+local ShopItem = require 'src/shop/ShopItem'
 local Coin = require 'src/Coin'
 
 local Shop = {
@@ -19,7 +21,7 @@ local Shop = {
     circleRandomInitialPosition = false, numberOfCircles = 1,
 
     -- other items
-    mouseSize = 5
+    mouseScale = 1
 }
 
 function Shop.update()

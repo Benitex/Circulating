@@ -2,6 +2,7 @@
 -- Coin Class --
 ----------------
 
+local Window = require 'src/ui/Window'
 local Mouse = require 'src/Mouse'
 
 local Coin = {
@@ -28,8 +29,8 @@ function areCirclesTouching(x1, y1, size1, x2, y2, size2)
 end
 
 function Coin:clicked()
-    if self.x < Mouse.x + Mouse.size and self.x + self.width > Mouse.x + Mouse.size
-    and self.y < Mouse.y + Mouse.size and self.y + self.height > Mouse.y + Mouse.size then
+    if self.x < Mouse.x + Mouse.size and self.x + self.width > Mouse.x - Mouse.size
+    and self.y < Mouse.y + Mouse.size and self.y + self.height > Mouse.y - Mouse.size then
         Shop.money = Shop.money + Shop.coinsValue
         Shop.totalMoney = Shop.totalMoney + Shop.coinsValue
         return true

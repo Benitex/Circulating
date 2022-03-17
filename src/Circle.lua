@@ -2,6 +2,7 @@
 -- Circle class --
 ----------------
 
+local Window = require 'src/ui/Window'
 local Mouse = require 'src/Mouse'
 
 local Circle = {

@@ -2,6 +2,8 @@
 -- Mouse Class --
 -----------------
 
+local Window = require 'src/ui/Window'
+
 local Mouse = {
     x = 0, y = 0, size = 16, scale = 1,
 
@@ -12,16 +14,21 @@ local Mouse = {
 }
 
 function Mouse.load()
-    Mouse.scale = Shop.mouseSize*Window.screenWidthScale
-    Mouse.size = Mouse.size * Mouse.scale
+    if gameState == 'play' then
+        Mouse.scale = Shop.mouseScale * Window.screenWidthScale
+        Mouse.size = Mouse.size * Mouse.scale
+    else
+        Mouse.scale = 1
+        Mouse.size = 16
+    end
 end
 
 function Mouse.draw()
     if gameState == 'play' then
-        love.graphics.draw(Mouse.sprites.player, Mouse.x - Mouse.size*Mouse.scale/2, Mouse.y - Mouse.size*Mouse.scale/2, 0, Mouse.scale, Mouse.scale)
+        love.graphics.draw(Mouse.sprites.player, Mouse.x - Mouse.size, Mouse.y - Mouse.size, 0, Mouse.scale, Mouse.scale)
     else
         if not playingOnMobile then
-            love.graphics.draw(Mouse.sprites.menus, Mouse.x, Mouse.y, 0, Mouse.scale, Mouse.scale)
+            love.graphics.draw(Mouse.sprites.menus, Mouse.x, Mouse.y)
         end
     end
 end

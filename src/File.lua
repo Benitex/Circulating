@@ -2,6 +2,8 @@
 -- Save File class --
 ---------------------
 
+local ShopItem = require 'src/shop/ShopItem'
+
 local File = {}
 
 function File.save()

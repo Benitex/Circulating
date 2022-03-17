@@ -68,11 +68,11 @@ function ShopItem:new(type, level)
     elseif self.type == 'mouseSize' then
         self.text = 'The big boy mouse:\nMouse icon is bigger.'
         self.price = 40
-        self.maxLevel = 5
+        self.maxLevel = 4
         self.temperature = 2
 
         if self.level > 1 then
-            Shop.mouseSize = self.level
+            Shop.mouseScale = self.level
         end
     end
 

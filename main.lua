@@ -1,14 +1,14 @@
------------
+-----------------
 -- Circulating --
------------
+-----------------
 
 -- Classes
+local File = require 'src/File'
 local Sounds = require 'src/Sounds'
+local UI = require 'src/ui/UI'
 local Mouse = require 'src/Mouse'
-File = require 'src/File'
-UI = require 'src/ui/UI'
+local Circle = require 'src/Circle'
 Shop = require 'src/shop/Shop'
-Window = require 'src/ui/Window'
 
 function love.load()
     gameState = 'menu'
@@ -57,6 +57,7 @@ function love.update(dt)
                     Shop.coinsList = {}
                     Sounds.defeatSE:play()
                     gameState = 'game over'
+                    Mouse.load()
                     Shop.money = 0
                     countdown = 3
                     File.save()
@@ -64,6 +65,23 @@ function love.update(dt)
             end
         end
     end
+end
+
+function startGame()
+    gameState = 'play'
+    for tempo = 1, Shop.numberOfCircles, 1 do
+        table.insert(Shop.circleList, Circle:new(Shop.circleRandomInitialPosition))
+    end
+    Mouse.load()
+end
+
+function togglePause()
+    if gameState == 'play' then
+        gameState = 'pause'
+    elseif gameState == 'pause' then
+        gameState = 'play'
+    end
+    Mouse.load()
 end
 
 -- Desktop controls
@@ -86,10 +104,8 @@ end
 
 function love.keypressed(key)
     if key == 'escape' or key == 'space' then
-        if gameState == 'play' then
-            gameState = 'pause'
-        elseif gameState == 'pause' then
-            gameState = 'play'
+        if gameState == 'play' or gameState == 'pause' then
+            togglePause()
         else
             File.save()
             love.event.quit()
@@ -116,10 +132,8 @@ end
 function love.touchreleased()
     if playingOnMobile then
         if countdown < 0 then
-            if gameState == 'play' then
-                gameState = 'pause'
-            elseif gameState == 'pause' then
-                gameState = 'play'
+            if gameState == 'play' or gameState == 'pause' then
+                togglePause()
             end
         end
     end

@@ -2,8 +2,9 @@
 -- UI Class --
 --------------
 
+local File = require 'src/File'
+local Window = require 'src/ui/Window'
 local Button = require 'src/ui/Button'
-local Circle = require 'src/Circle'
 
 local UI = {
     backgrounds = {
@@ -29,42 +30,32 @@ function UI.load()
 
     UI.buttons = {
         menu = {
+            Button:new(function() startGame() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
             Button:new(function()
                 gameState = 'shop - cold'
                 UI.loadShopButtons()
-            end, 'Shop_Icon', 20, 20, 3),
-            Button:new(function()
-                gameState = 'play'
-                for tempo = 1, Shop.numberOfCircles, 1 do
-                    table.insert(Shop.circleList, Circle:new(Shop.circleRandomInitialPosition))
-                end
-            end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5)
+            end, 'Shop_Icon', 20, 20, 3)
         },
 
         play = {
             Button:new(function() end, 'MaxCoin_Icon', 10 * Window.screenWidthScale, 10 * Window.screenHeightScale, 5),
             Button:new(function() end, 'Coin_Icon', 10 * Window.screenWidthScale, 100 * Window.screenHeightScale, 5),
-            Button:new(function() gameState = 'pause' end, 'Pause_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 3)
+            Button:new(function() togglePause() end, 'Pause_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 3)
         },
 
         pause = {
             Button:new(function() end, 'MaxCoin_Icon', 10 * Window.screenWidthScale, 10 * Window.screenHeightScale, 5),
             Button:new(function() end, 'Coin_Icon', 10 * Window.screenWidthScale, 100 * Window.screenHeightScale, 5),
-            Button:new(function() gameState = 'play' end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
-            Button:new(function() gameState = 'play' end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 6)
+            Button:new(function() togglePause() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
+            Button:new(function() togglePause() end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 6)
         },
 
         gameOver = {
+            Button:new(function() startGame() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
             Button:new(function()
                 gameState = 'shop - cold'
                 UI.loadShopButtons()
-            end, 'Shop_Icon', 20 * Window.screenWidthScale, 20 * Window.screenHeightScale, 3),
-            Button:new(function()
-                gameState = 'play'
-                for tempo = 1, Shop.numberOfCircles, 1 do
-                    table.insert(Shop.circleList, Circle:new(Shop.circleRandomInitialPosition))
-                end
-            end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5)
+            end, 'Shop_Icon', 20 * Window.screenWidthScale, 20 * Window.screenHeightScale, 3)
         },
 
         shop = {},
@@ -100,12 +91,6 @@ function UI.getList()
     return list
 end
 
-function UI.drawButtons()
-    for tempo, button in ipairs( UI.getList() ) do
-        love.graphics.draw(button.sprite, button.x, button.y, 0, button.scale, button.scale)
-    end
-end
-
 function UI.print(text, x, y, scale)
     x = x * 12 * Window.screenWidthScale
     y = y * 12 * Window.screenHeightScale
@@ -117,7 +102,7 @@ function UI.print(text, x, y, scale)
 end
 
 function UI.drawTexts()
-    if gameState == 'play' then
+    if gameState == 'play' or gameState == 'pause' then
         if math.ceil(countdown) > 0 then
             UI.print( math.ceil(countdown) , 80 - UI.font.width/2, 45 - UI.font.height, 5)
         end
@@ -158,11 +143,17 @@ function UI.drawTexts()
     end
 end
 
+function UI.drawButtons()
+    for tempo, button in ipairs( UI.getList() ) do
+        love.graphics.draw(button.sprite, button.x, button.y, 0, button.scale, button.scale)
+    end
+end
+
 function UI.loadShopButtons()
     -- First shop load
     Shop.addItem('coinsSpawnTime', 1)
     Shop.addItem('circleInitialPosition', 1)
-    --Shop.addItem('mouseSize', 1)
+    Shop.addItem('mouseSize', 1)
 
     -- Fixed buttons
     UI.buttons.shop = {
