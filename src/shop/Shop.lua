@@ -15,7 +15,7 @@ local Shop = {
     circleList = {}, coinsList = {}, itemsList = {},
 
     -- Coins items
-    coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5,
+    coinsPickedOnHover = false, coinSpawnTime = 0, coinScale = 3, coinsValue = 5, coinsMovement = false,
 
     -- Circle items
     circleRandomInitialPosition = false, numberOfCircles = 1,
@@ -36,6 +36,7 @@ function Shop.update()
     -- Insert unlockable items
     for tempo, item in ipairs(newShop) do
         if item.type == 'coinsSpawnTime' and item.level > 1 then
+            Shop.addItem('coinsMovement', 1)
             if playingOnMobile then
                 Shop.addItem('coinsPickedOnHover', 2)
             else

@@ -7,23 +7,6 @@ local ShopItem = {
 }
 ShopItem.__index = ShopItem
 
---[[
-    Colder
-
-    max number of coins on screen
-    coins size
-    coins value
-    coins spawn time
-
-    Hotter
-
-    mouse size
-    random circle initial position
-    number of circles
-    walking coins
-
---]]
-
 function ShopItem:new(type, level)
     self = setmetatable({}, self)
 
@@ -55,10 +38,13 @@ function ShopItem:new(type, level)
             Shop.coinSpawnTime = 7 - self.level
         end
 
+    -- coins size item
+    -- TODO
+
     -- Hot Items
     elseif self.type == 'circleInitialPosition' then
         self.text = 'Circulating Circle Position:\nThe circle starts at a random position.'
-        self.price = 20
+        self.price = 30
         self.maxLevel = 2
         self.temperature = 1
 
@@ -67,12 +53,21 @@ function ShopItem:new(type, level)
         end
     elseif self.type == 'mouseSize' then
         self.text = 'The big boy mouse:\nMouse icon is bigger.'
-        self.price = 40
+        self.price = 50
         self.maxLevel = 4
         self.temperature = 2
 
         if self.level > 1 then
             Shop.mouseScale = self.level
+        end
+    elseif self.type == 'coinsMovement' then
+        self.text = 'The walking coins:\nCoins are always going in a random direction.'
+        self.price = 20
+        self.maxLevel = 2
+        self.temperature = 1
+
+        if self.level > 1 then
+            Shop.coinsMovement = true
         end
     end
 

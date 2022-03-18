@@ -50,6 +50,11 @@ function love.update(dt)
         if countdown < 0 then
             Shop.receiveMoney(dt)
             Shop.spawnCoins(dt)
+            for tempo, coin in ipairs(Shop.coinsList) do
+                if Shop.coinsMovement then
+                    coin:move(dt)
+                end
+            end
             for tempo, circle in ipairs(Shop.circleList) do
                 circle:move(dt)
                 if circle:touchedByMouse() then

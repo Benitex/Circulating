@@ -7,6 +7,7 @@ local Mouse = require 'src/Mouse'
 
 local Coin = {
     x = 0, y = 0, width = 16, height = 16,
+    direction = 0, directionTempo = 1,
     sprite = love.graphics.newImage('graphics/icons/Coin_Icon.png'), scale = 3
 }
 Coin.__index = Coin
@@ -23,9 +24,34 @@ function Coin:new(scale)
     return self
 end
 
-function areCirclesTouching(x1, y1, size1, x2, y2, size2)
-    local distance = math.sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
-    return distance < size1 + size2
+function Coin:move(dt)
+    self.directionTempo = self.directionTempo - dt
+
+    if self.directionTempo <= 0 then
+        self.direction = love.math.random(1, 4)
+        self.directionTempo = 2
+    end
+
+    if self.direction == 1 then
+        self.x = self.x + 3*30*dt*Window.screenWidthScale
+    elseif self.direction == 2 then
+        self.x = self.x - 3*30*dt*Window.screenWidthScale
+    elseif self.direction == 3 then
+        self.y = self.y + 3*30*dt*Window.screenHeightScale
+    elseif self.direction == 4 then
+        self.y = self.y - 3*30*dt*Window.screenHeightScale
+    end
+
+    if self.x >= Window.width - self.width then
+        self.x = Window.width - self.width
+    elseif self.x <= 0 then
+        self.x = 0
+    end
+    if self.y >= Window.height - self.height then
+        self.y = Window.height - self.height
+    elseif self.y <= 0 then
+        self.y = 0
+    end
 end
 
 function Coin:clicked()
