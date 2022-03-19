@@ -14,3 +14,6 @@ In using this font you must comply with the licensing terms described in the
 file “license.txt” included with this archive.
 If you redistribute the font file in this archive, it must be accompanied by all
 the other files from this archive, including this one.
+If you want to use this font for commercial projects, you can contact me using
+one of the links on https://github.com/Benitex and I may offer the written
+permission.
