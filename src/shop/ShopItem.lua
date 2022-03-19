@@ -37,9 +37,15 @@ function ShopItem:new(type, level)
         if self.level > 1 then
             Shop.coinSpawnTime = 7 - self.level
         end
+    elseif self.type == 'coinScale' then
+        self.text = 'Empowered coins:\nCoins are bigger.'
+        self.price = 50
+        self.maxLevel = 4
+        self.temperature = -1
 
-    -- coins size item
-    -- TODO
+        if self.level > 1 then
+            Shop.coinScale = 2 + self.level
+        end
 
     -- Hot Items
     elseif self.type == 'circleInitialPosition' then

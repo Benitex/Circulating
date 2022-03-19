@@ -5,6 +5,7 @@
 local File = require 'src/File'
 local Window = require 'src/ui/Window'
 local Button = require 'src/ui/Button'
+local Mouse = require 'src/Mouse'
 
 local UI = {
     backgrounds = {
@@ -26,6 +27,8 @@ function UI.load()
     love.graphics.setFont(font)
 
     love.mouse.setVisible(false)
+    Mouse.sprites.menus:setFilter('nearest', 'nearest')
+    Mouse.sprites.player:setFilter('nearest', 'nearest')
     UI.backgrounds.shop:setFilter('nearest', 'nearest')
 
     UI.buttons = {

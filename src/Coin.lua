@@ -20,6 +20,7 @@ function Coin:new(scale)
     self.height = 16 * self.scale
     self.x = love.math.random(Window.width - self.width*2)
     self.y = love.math.random(Window.height - self.height*2)
+    self.sprite:setFilter('nearest', 'nearest')
 
     return self
 end

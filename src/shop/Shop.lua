@@ -37,6 +37,7 @@ function Shop.update()
     for tempo, item in ipairs(newShop) do
         if item.type == 'coinsSpawnTime' and item.level > 1 then
             Shop.addItem('coinsMovement', 1)
+            Shop.addItem('coinScale', 1)
             if playingOnMobile then
                 Shop.addItem('coinsPickedOnHover', 2)
             else
@@ -64,6 +65,7 @@ function Shop.addItem(type, level)
 end
 
 function Shop.setTemperature()
+    Shop.temperature = 0
     for tempo, item in ipairs(Shop.itemsList) do
         if item.level > 1 then
             Shop.temperature = Shop.temperature + item.temperature * (item.level-1)

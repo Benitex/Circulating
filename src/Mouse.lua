@@ -5,7 +5,7 @@
 local Window = require 'src/ui/Window'
 
 local Mouse = {
-    x = 0, y = 0, size = 16, scale = 1,
+    x = 0, y = 0, size = 16, scale = 4,
 
     sprites = {
         player = love.graphics.newImage('graphics/mouse/Player.png'),
@@ -18,7 +18,7 @@ function Mouse.load()
         Mouse.scale = Shop.mouseScale * Window.screenWidthScale
         Mouse.size = Mouse.size * Mouse.scale
     else
-        Mouse.scale = 1
+        Mouse.scale = 4
         Mouse.size = 16
     end
 end
@@ -28,7 +28,7 @@ function Mouse.draw()
         love.graphics.draw(Mouse.sprites.player, Mouse.x - Mouse.size, Mouse.y - Mouse.size, 0, Mouse.scale, Mouse.scale)
     else
         if not playingOnMobile then
-            love.graphics.draw(Mouse.sprites.menus, Mouse.x, Mouse.y)
+            love.graphics.draw(Mouse.sprites.menus, Mouse.x, Mouse.y, 0, Mouse.scale, Mouse.scale)
         end
     end
 end
