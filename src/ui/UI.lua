@@ -105,7 +105,10 @@ function UI.print(text, x, y, scale)
 end
 
 function UI.drawTexts()
-    if gameState == 'play' or gameState == 'pause' then
+    if gameState == 'menu' then
+        UI.print("Highest Score: " .. Shop.highestScore, 80 - (UI.font.width * 15)/2, 1, 4)
+
+    elseif gameState == 'play' or gameState == 'pause' then
         if math.ceil(countdown) > 0 then
             UI.print( math.ceil(countdown) , 80 - UI.font.width/2, 45 - UI.font.height, 5)
         end
@@ -113,7 +116,8 @@ function UI.drawTexts()
         UI.print(Shop.money, 10, 8, 3)
 
     elseif gameState == 'game over' then
-        UI.print("Game Over", 80 - (UI.font.width * 11)/2, 45 - 4 * UI.font.height, 5)
+        UI.print("Game Over", 80 - (UI.font.width * 11)/2, 45 - 5 * UI.font.height, 5)
+        UI.print("Highest Score: " .. Shop.highestScore, 80 - (UI.font.width * 15)/2, 45 - 3 * UI.font.height, 4)
 
     elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
         if gameState == 'shop - cold' then

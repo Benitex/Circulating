@@ -9,7 +9,7 @@ local Coin = require 'src/Coin'
 
 local Shop = {
     temperature = 0,
-    money = 0, totalMoney = 0,
+    money = 0, totalMoney = 0, highestScore = 0,
 
     -- Lists
     circleList = {}, coinsList = {}, itemsList = {},

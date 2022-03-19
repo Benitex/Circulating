@@ -58,14 +58,7 @@ function love.update(dt)
             for tempo, circle in ipairs(Shop.circleList) do
                 circle:move(dt)
                 if circle:touchedByMouse() then
-                    Shop.circleList = {}
-                    Shop.coinsList = {}
-                    Sounds.defeatSE:play()
-                    gameState = 'game over'
-                    Mouse.load()
-                    Shop.money = 0
-                    countdown = 3
-                    File.save()
+                   gameOver()
                 end
             end
         end
@@ -89,6 +82,20 @@ function togglePause()
     Mouse.load()
 end
 
+function gameOver()
+    Shop.circleList = {}
+    Shop.coinsList = {}
+    Sounds.defeatSE:play()
+    gameState = 'game over'
+    Mouse.load()
+    if Shop.money > Shop.highestScore then
+        Shop.highestScore = Shop.money
+    end
+    Shop.money = 0
+    countdown = 3
+    File.save()
+end
+
 -- Desktop controls
 
 function love.mousepressed(x, y)
@@ -108,12 +115,16 @@ function love.mousepressed(x, y)
 end
 
 function love.keypressed(key)
-    if key == 'escape' or key == 'space' then
-        if gameState == 'play' or gameState == 'pause' then
+    if gameState == 'play' or gameState == 'pause' then
+        if key == 'escape' or key == 'space' then
             togglePause()
-        else
+        end
+    elseif gameState == 'menu' or gameState == 'gameOver' then
+        if key == 'escape' then
             File.save()
             love.event.quit()
+        elseif key == 'space' then
+            startGame()
         end
     end
 end
