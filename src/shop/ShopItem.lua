@@ -46,6 +46,24 @@ function ShopItem:new(type, level)
         if self.level > 1 then
             Shop.coinScale = 2 + self.level
         end
+    elseif self.type == 'circleSpeed' then
+        self.text = "It is not that fast anymore:\nThe circle is slower."
+        self.price = 200
+        self.maxLevel = 6
+        self.temperature = -2
+
+        if self.level > 1 then
+            Shop.circleSpeed = 30 - ((self.level-1) * 5)
+        end
+    elseif self.type == 'circleSize' then
+        self.text = 'It is not that big anymore:\nThe circle is smaller.'
+        self.price = 150
+        self.maxLevel = 6
+        self.temperature = -2
+
+        if self.level > 1 then
+            Shop.circleSize = 6 - self.level
+        end
 
     -- Hot Items
     elseif self.type == 'circleInitialPosition' then

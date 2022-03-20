@@ -21,7 +21,7 @@ local Shop = {
     circleRandomInitialPosition = false, numberOfCircles = 1,
 
     -- other items
-    mouseScale = 1
+    mouseScale = 1, circleSpeed = 30, circleSize = 5
 }
 
 function Shop.update()

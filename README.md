@@ -17,3 +17,4 @@ All the code, graphics, and music were made by me. Graphics were made with [Asep
 ## Screenshots
 
 ![Circulating Screenshot](https://user-images.githubusercontent.com/64505839/157769835-8f11ae6f-042a-4e00-be0c-43889d3e207c.png)
+![Shop Screenshot](https://user-images.githubusercontent.com/64505839/159139585-3da6d845-1cf5-42e4-a8b0-5a0694d8122f.png)

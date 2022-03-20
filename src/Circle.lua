@@ -24,7 +24,7 @@ function Circle:new(randomPosition)
         self.y = Window.height/2
     end
 
-    self.speed = 7*30*Window.screenWidthScale
+    self.speed = 7*30 * Window.screenWidthScale
     self.size = 15 * Window.screenWidthScale
 
     return self
@@ -42,8 +42,8 @@ function Circle:move(dt)
         self.y = self.y - self.speed * dt
     end
 
-    self.speed = self.speed + 30*dt*Window.screenWidthScale
-    self.size = self.size + 5*dt*Window.screenWidthScale
+    self.speed = self.speed + Shop.circleSpeed * dt*Window.screenWidthScale
+    self.size = self.size + Shop.circleSize * dt*Window.screenWidthScale
 end
 
 function Circle:touchedByMouse()

@@ -161,6 +161,8 @@ function UI.loadShopButtons()
     Shop.addItem('coinsSpawnTime', 1)
     Shop.addItem('circleInitialPosition', 1)
     Shop.addItem('mouseSize', 1)
+    Shop.addItem('circleSize', 1)
+    Shop.addItem('circleSpeed', 1)
 
     -- Fixed buttons
     UI.buttons.shop = {
