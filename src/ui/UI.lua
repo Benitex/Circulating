@@ -33,32 +33,33 @@ function UI.load()
 
     UI.buttons = {
         menu = {
-            Button:new(function() startGame() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
+            Button:new(function() startGame() end, 'Play_Icon', 80 - 7, 45 - 7, 5),
             Button:new(function()
                 gameState = 'shop - cold'
                 UI.loadShopButtons()
-            end, 'Shop_Icon', 20, 20, 3)
+            end, 'Shop_Icon', 1, 1, 3)
         },
 
         play = {
-            Button:new(function() end, 'MaxCoin_Icon', 10 * Window.screenWidthScale, 10 * Window.screenHeightScale, 5),
-            Button:new(function() end, 'Coin_Icon', 10 * Window.screenWidthScale, 100 * Window.screenHeightScale, 5),
-            Button:new(function() togglePause() end, 'Pause_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 3)
+            Button:new(function() end, 'MaxCoin_Icon', 1, 1, 5),
+            Button:new(function() end, 'Coin_Icon', 1, 8, 5),
+            Button:new(function() togglePause() end, 'Pause_Icon', 160 - 9, 1, 3)
         },
 
         pause = {
-            Button:new(function() end, 'MaxCoin_Icon', 10 * Window.screenWidthScale, 10 * Window.screenHeightScale, 5),
-            Button:new(function() end, 'Coin_Icon', 10 * Window.screenWidthScale, 100 * Window.screenHeightScale, 5),
-            Button:new(function() togglePause() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
-            Button:new(function() togglePause() end, 'Exit_Icon', Window.width - 32*3*Window.screenWidthScale - 20, 20, 6)
+            Button:new(function() end, 'MaxCoin_Icon', 1, 1, 5),
+            Button:new(function() end, 'Coin_Icon', 1, 8, 5),
+            Button:new(function() togglePause() end, 'Play_Icon', 80 - 7, 45 - 7, 5),
+            Button:new(function() togglePause() end, 'Exit_Icon', 160 - 9, 1, 6)
         },
 
         gameOver = {
-            Button:new(function() startGame() end, 'Play_Icon', Window.width/2 - 16*5*Window.screenWidthScale, Window.height/2 - 16*5*Window.screenHeightScale, 5),
+            Button:new(function() startGame() end, 'Play_Icon', 80 - 7, 45, 5),
             Button:new(function()
                 gameState = 'shop - cold'
                 UI.loadShopButtons()
-            end, 'Shop_Icon', 20 * Window.screenWidthScale, 20 * Window.screenHeightScale, 3)
+            end, 'Shop_Icon', 80 - 20, 47, 4),
+            Button:new(function() gameState = 'menu' end, 'Menu_Icon', 80 + 9, 47, 4)
         },
 
         shop = {},
@@ -72,7 +73,7 @@ function UI.load()
         table.insert(UI.buttons.menu, Button:new(function()
             File.save()
             love.event.quit()
-        end, 'Exit_Icon', Window.width - 32*Window.screenHeightScale * 3*Window.screenWidthScale - 50, 30*Window.screenHeightScale, 6))
+        end, 'Exit_Icon', 160 - 13, 3, 6))
     end
 end
 
@@ -129,7 +130,7 @@ function UI.drawTexts()
 
         for itemNumber, item in ipairs(Shop.getItems()) do
             -- Item texts
-            local y = 8 + ((9 + 5) * itemNumber)
+            local y = 8 + (14 * itemNumber)
             UI.print(item.text, 22, y, 2)
 
             -- Item prices
@@ -166,21 +167,21 @@ function UI.loadShopButtons()
 
     -- Fixed buttons
     UI.buttons.shop = {
-        Button:new(function() gameState = 'menu' end, 'Exit_Icon', Window.width - 32*Window.screenHeightScale * 3*Window.screenWidthScale - 50, 30*Window.screenHeightScale, 6),
+        Button:new(function() gameState = 'menu' end, 'Exit_Icon', 160 - 13, 3, 6),
         Button:new(function()
             gameState = 'shop - cold'
             UI.loadShopButtons()
-        end, 'Shop_Cold_Icon', 0, 21 * 12*Window.screenHeightScale, 12),
+        end, 'Shop_Cold_Icon', 0, 21, 12),
         Button:new(function()
             gameState = 'shop - hot'
             UI.loadShopButtons()
-        end, 'Shop_Hot_Icon', 0, 56 * 12*Window.screenHeightScale, 12)
+        end, 'Shop_Hot_Icon', 0, 56, 12)
     }
 
     -- Shop dependent buttons
     for itemNumber, item in ipairs(Shop.getItems()) do
-        local x = (128 + math.floor((itemNumber+1)/2)) * 12*Window.screenWidthScale
-        local y = (9 + ((9 + 5) * itemNumber)) * 12*Window.screenHeightScale
+        local x = 128 + math.floor((itemNumber+1)/2)
+        local y = 9 + (14 * itemNumber)
         table.insert(UI.buttons.shop, Button:new(item:upgrade(), 'Plus_Icon', x, y, 12))
     end
 end

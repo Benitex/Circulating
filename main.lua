@@ -58,7 +58,7 @@ function love.update(dt)
             for tempo, circle in ipairs(Shop.circleList) do
                 circle:move(dt)
                 if circle:touchedByMouse() then
-                   gameOver()
+                    gameOver()
                 end
             end
         end
@@ -119,12 +119,16 @@ function love.keypressed(key)
         if key == 'escape' or key == 'space' then
             togglePause()
         end
-    elseif gameState == 'menu' or gameState == 'gameOver' then
+    elseif gameState == 'menu' or gameState == 'game over' then
         if key == 'escape' then
             File.save()
             love.event.quit()
         elseif key == 'space' then
             startGame()
+        end
+    elseif gameState == 'shop - cold' or gameState == 'shop - hot' then
+        if key == 'escape' then
+            gameState = 'menu'
         end
     end
 end

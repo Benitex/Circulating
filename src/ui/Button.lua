@@ -14,8 +14,8 @@ function Button:new(code, type, x, y, scale)
     self = setmetatable({}, self)
 
     self.code = code
-    self.x = x
-    self.y = y
+    self.x = x * 12 * Window.screenWidthScale
+    self.y = y * 12 * Window.screenHeightScale
     self.type = type
     self.scale = scale * Window.screenWidthScale
     if self.type == 'Coin_Icon' or self.type == 'MaxCoin_Icon' then
